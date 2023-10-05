@@ -1,0 +1,998 @@
+.calculator-daily-UI {
+  background-color: rgba(255, 255, 255, 1);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.calculator-daily-UI .overlap-wrapper {
+  background: linear-gradient(180deg, rgb(255, 58.44, 58.44) 0%, rgb(228.44, 63.77, 63.77) 100%);
+  background-color: rgba(255, 255, 255, 1);
+  height: 100vh;
+  width: 100vw;
+}
+
+.calculator-daily-UI .overlap {
+  height: 560px;
+  left: 425px;
+  position: relative;
+  top: 80px;
+  width: 734px;
+}
+
+.calculator-daily-UI .historico {
+  box-shadow: 0px 3.33px 3.3px #00000010, 0px 8px 7.92px #00000017, 0px 26.86px 26.6px #00000021,
+    0px 50.25px 49.75px #00000028, 0px 120.27px 119.07px #00000038;
+  height: 560px;
+  left: 417px;
+  position: absolute;
+  top: 0;
+  width: 317px;
+}
+
+.calculator-daily-UI .historico-items {
+  background: linear-gradient(
+    180deg,
+    rgb(175.31, 37.98, 37.98) 0%,
+    rgb(171.06, 37.78, 37.78) 50%,
+    rgb(148.75, 32.85, 32.85) 100%
+  );
+  border-radius: 17.79px;
+  height: 560px;
+  overflow: hidden;
+  position: relative;
+}
+
+.calculator-daily-UI .close-h {
+  height: 21px;
+  left: 281px;
+  position: absolute;
+  top: 18px;
+  width: 18px;
+}
+
+.calculator-daily-UI .hist {
+  height: 67px;
+  left: 62px;
+  position: absolute;
+  top: 394px;
+  width: 136px;
+}
+
+.calculator-daily-UI .overlap-group {
+  height: 67px;
+  position: relative;
+  width: 132px;
+}
+
+.calculator-daily-UI .text-wrapper {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 15.6px;
+  font-weight: 400;
+  left: 1px;
+  letter-spacing: 0;
+  line-height: 16.2px;
+  position: absolute;
+  top: 3px;
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .element {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 12.4px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 12.8px;
+  position: absolute;
+  top: 0;
+  width: 132px;
+}
+
+.calculator-daily-UI .span {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 12.4px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 12.8px;
+}
+
+.calculator-daily-UI .text-wrapper-2 {
+  font-size: 41.2px;
+  font-weight: 500;
+  line-height: 42.8px;
+}
+
+.calculator-daily-UI .overlap-group-wrapper {
+  height: 67px;
+  left: 62px;
+  position: absolute;
+  top: 317px;
+  width: 136px;
+}
+
+.calculator-daily-UI .div-wrapper {
+  height: 67px;
+  left: 62px;
+  position: absolute;
+  top: 241px;
+  width: 136px;
+}
+
+.calculator-daily-UI .div {
+  height: 67px;
+  left: 62px;
+  position: absolute;
+  top: 473px;
+  width: 136px;
+}
+
+.calculator-daily-UI .p {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 15.6px;
+  font-weight: 400;
+  left: 1px;
+  letter-spacing: 0;
+  line-height: 16.2px;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .boxcalc {
+  box-shadow: 0px 3.33px 3.3px #00000010, 0px 8px 7.92px #00000017, 0px 15.06px 14.91px #0000001c,
+    0px 26.86px 26.6px #00000021, 0px 50.25px 49.75px #00000028, 0px 120.27px 119.07px #00000038;
+  height: 560px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: rotate(180deg);
+  width: 471px;
+}
+
+.calculator-daily-UI .caixa {
+  background: linear-gradient(
+    180deg,
+    rgb(45.69, 45.69, 45.69) 0%,
+    rgb(43.56, 43.56, 43.56) 50.52%,
+    rgba(36.12, 35.97, 35.97, 0.87) 100%
+  );
+  border-radius: 17.79px;
+  height: 560px;
+  position: relative;
+}
+
+.calculator-daily-UI .overlap-2 {
+  border-radius: 5.84px;
+  height: 45px;
+  left: 23px;
+  position: absolute;
+  top: 20px;
+  width: 48px;
+}
+
+.calculator-daily-UI .solve-button {
+  background-color: #ff3a3a;
+  border-radius: 5.84px;
+  box-shadow: 0px 2.67px 2.67px #0000000f, 0px 6.76px 6.76px #00000015, 0px 13.79px 13.79px #0000001b,
+    0px 28.4px 28.4px #00000021, 0px 77.81px 77.81px #00000030;
+  height: 45px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: rotate(180deg);
+  width: 48px;
+}
+
+.calculator-daily-UI .text-wrapper-3 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 38.8px;
+  font-weight: 400;
+  left: 9px;
+  letter-spacing: 0;
+  line-height: 40.3px;
+  position: absolute;
+  top: 0;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  width: 29px;
+}
+
+.calculator-daily-UI .overlap-3 {
+  height: 30px;
+  left: 37px;
+  position: absolute;
+  top: 508px;
+  width: 219px;
+}
+
+.calculator-daily-UI .selected-rec {
+  height: 3px;
+  left: 79px;
+  position: absolute;
+  top: 0;
+  transform: rotate(-180deg);
+  width: 27px;
+}
+
+.calculator-daily-UI .abas {
+  align-items: center;
+  display: inline-flex;
+  gap: 29.6px;
+  left: 0;
+  position: absolute;
+  top: 2px;
+}
+
+.calculator-daily-UI .historico-2 {
+  background-image: url(../../../static/img/historical-1.png);
+  background-position: 50% 50%;
+  background-size: cover;
+  height: 27.95px;
+  position: relative;
+  width: 27.95px;
+}
+
+.calculator-daily-UI .text-wrapper-4 {
+  color: #ffffff;
+  font-family: "DM Sans", Helvetica;
+  font-size: 12.7px;
+  font-weight: 500;
+  height: 16.44px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  transform: rotate(180deg);
+  width: 72.34px;
+}
+
+.calculator-daily-UI .standard {
+  color: #ffffff;
+  font-family: "DM Sans", Helvetica;
+  font-size: 12.7px;
+  font-weight: 400;
+  height: 16.44px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: relative;
+  text-align: center;
+  transform: rotate(180deg);
+  width: 59.19px;
+}
+
+.calculator-daily-UI .text-wrapper-5 {
+  color: #ffffff;
+  font-family: "DM Sans", Helvetica;
+  font-size: 12.7px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.calculator-daily-UI .text-wrapper-6 {
+  font-size: 7.9px;
+}
+
+.calculator-daily-UI .answer-box {
+  height: 68px;
+  left: 36px;
+  position: absolute;
+  top: 360px;
+  transform: rotate(180deg);
+  width: 139px;
+}
+
+.calculator-daily-UI .overlap-group-2 {
+  height: 68px;
+  position: relative;
+  width: 135px;
+}
+
+.calculator-daily-UI .text-wrapper-7 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 12.6px;
+  font-weight: 400;
+  left: 70px;
+  letter-spacing: 0;
+  line-height: 13.1px;
+  position: absolute;
+  text-align: right;
+  top: 55px;
+  white-space: nowrap;
+  width: 59px;
+}
+
+.calculator-daily-UI .element-2 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 12.6px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 13.1px;
+  position: absolute;
+  text-align: right;
+  top: 0;
+  width: 135px;
+}
+
+.calculator-daily-UI .text-wrapper-8 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 12.6px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 13.1px;
+}
+
+.calculator-daily-UI .text-wrapper-9 {
+  font-size: 53.6px;
+  font-weight: 500;
+  line-height: 55.6px;
+}
+
+.calculator-daily-UI .overlap-4 {
+  height: 215px;
+  left: 85px;
+  position: absolute;
+  top: 22px;
+  width: 356px;
+}
+
+.calculator-daily-UI .overlap-5 {
+  height: 215px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 356px;
+}
+
+.calculator-daily-UI .overlap-6 {
+  height: 215px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 225px;
+}
+
+.calculator-daily-UI .numericals {
+  height: 215px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: rotate(180deg);
+  width: 175px;
+}
+
+.calculator-daily-UI .text-wrapper-10 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 35.7px;
+  font-weight: 400;
+  left: 3px;
+  letter-spacing: 0;
+  line-height: 37px;
+  position: absolute;
+  top: 177px;
+  white-space: nowrap;
+  width: 20px;
+}
+
+.calculator-daily-UI .text-wrapper-11 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 35.7px;
+  font-weight: 400;
+  left: 66px;
+  letter-spacing: 0;
+  line-height: 37px;
+  position: absolute;
+  top: 177px;
+  white-space: nowrap;
+  width: 23px;
+}
+
+.calculator-daily-UI .text-wrapper-12 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 35.7px;
+  font-weight: 400;
+  left: 129px;
+  letter-spacing: 0;
+  line-height: 37px;
+  position: absolute;
+  top: 177px;
+  white-space: nowrap;
+  width: 23px;
+}
+
+.calculator-daily-UI .text-wrapper-13 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 35.7px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 37px;
+  position: absolute;
+  top: 118px;
+  white-space: nowrap;
+  width: 20px;
+}
+
+.calculator-daily-UI .text-wrapper-14 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 35.7px;
+  font-weight: 400;
+  left: 66px;
+  letter-spacing: 0;
+  line-height: 37px;
+  position: absolute;
+  top: 118px;
+  white-space: nowrap;
+  width: 23px;
+}
+
+.calculator-daily-UI .text-wrapper-15 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 35.7px;
+  font-weight: 400;
+  left: 128px;
+  letter-spacing: 0;
+  line-height: 37px;
+  position: absolute;
+  top: 119px;
+  white-space: nowrap;
+  width: 23px;
+}
+
+.calculator-daily-UI .text-wrapper-16 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 35.7px;
+  font-weight: 400;
+  left: 5px;
+  letter-spacing: 0;
+  line-height: 37px;
+  position: absolute;
+  top: 60px;
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-17 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 35.7px;
+  font-weight: 400;
+  left: 66px;
+  letter-spacing: 0;
+  line-height: 37px;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  width: 20px;
+}
+
+.calculator-daily-UI .text-wrapper-18 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 35.7px;
+  font-weight: 400;
+  left: 66px;
+  letter-spacing: 0;
+  line-height: 37px;
+  position: absolute;
+  top: 59px;
+  white-space: nowrap;
+  width: 23px;
+}
+
+.calculator-daily-UI .text-wrapper-19 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 35.7px;
+  font-weight: 400;
+  left: 129px;
+  letter-spacing: 0;
+  line-height: 37px;
+  position: absolute;
+  top: 60px;
+  white-space: nowrap;
+  width: 23px;
+}
+
+.calculator-daily-UI .text-wrapper-20 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 35.7px;
+  font-weight: 400;
+  left: 136px;
+  letter-spacing: 0;
+  line-height: 37px;
+  position: absolute;
+  top: 4px;
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .plus-minus {
+  height: 30px;
+  left: 126px;
+  object-fit: cover;
+  position: absolute;
+  top: 5px;
+  transform: rotate(-180deg);
+  width: 30px;
+}
+
+.calculator-daily-UI .log {
+  height: 30px;
+  left: 168px;
+  position: absolute;
+  top: 6px;
+  width: 57px;
+}
+
+.calculator-daily-UI .overlap-7 {
+  height: 30px;
+  position: relative;
+  width: 53px;
+}
+
+.calculator-daily-UI .text-wrapper-21 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 14.3px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 14.9px;
+  position: absolute;
+  top: 15px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-22 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 25.8px;
+  font-weight: 400;
+  left: 12px;
+  letter-spacing: 0;
+  line-height: 26.8px;
+  position: absolute;
+  top: 0;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-23 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 29.2px;
+  font-weight: 400;
+  left: 189px;
+  letter-spacing: 0;
+  line-height: 30.3px;
+  position: absolute;
+  top: 125px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .raizx {
+  height: 27px;
+  left: 187px;
+  position: absolute;
+  top: 181px;
+  width: 30px;
+}
+
+.calculator-daily-UI .x {
+  color: #ffffff;
+  font-family: "Port Lligat Sans", Helvetica;
+  font-size: 25.8px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 26.8px;
+  position: absolute;
+  top: 0;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-24 {
+  color: #ffffff;
+  font-family: "Port Lligat Sans", Helvetica;
+  font-size: 25.8px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 26.8px;
+}
+
+.calculator-daily-UI .text-wrapper-25 {
+  font-family: "Poppins", Helvetica;
+}
+
+.calculator-daily-UI .me-MC {
+  align-items: flex-start;
+  display: inline-flex;
+  gap: 24.66px;
+  left: 187px;
+  position: absolute;
+  top: 66px;
+}
+
+.calculator-daily-UI .text-wrapper-26 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 25.8px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 26.8px;
+  margin-top: -1.64px;
+  position: relative;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  width: fit-content;
+}
+
+.calculator-daily-UI .nraizx {
+  height: 32px;
+  left: 318px;
+  position: absolute;
+  top: 181px;
+  width: 32px;
+}
+
+.calculator-daily-UI .overlap-8 {
+  height: 32px;
+  position: relative;
+  width: 28px;
+}
+
+.calculator-daily-UI .text-wrapper-27 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 14.3px;
+  font-weight: 400;
+  left: 12px;
+  letter-spacing: 0;
+  line-height: 14.9px;
+  position: absolute;
+  top: 0;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  width: 16px;
+}
+
+.calculator-daily-UI .x-2 {
+  color: #ffffff;
+  font-family: "Port Lligat Sans", Helvetica;
+  font-size: 25.8px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 26.8px;
+  position: absolute;
+  top: 5px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .element-raizx {
+  height: 32px;
+  left: 256px;
+  position: absolute;
+  top: 180px;
+  width: 32px;
+}
+
+.calculator-daily-UI .text-wrapper-28 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 29.2px;
+  font-weight: 400;
+  left: 255px;
+  letter-spacing: 0;
+  line-height: 30.3px;
+  position: absolute;
+  top: 124px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-29 {
+  color: #ffffff;
+  font-family: "Pontano Sans", Helvetica;
+  font-size: 29.2px;
+  font-weight: 400;
+  left: 321px;
+  letter-spacing: 0;
+  line-height: 30.3px;
+  position: absolute;
+  top: 9px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-30 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 29.2px;
+  font-weight: 400;
+  left: 258px;
+  letter-spacing: 0;
+  line-height: 30.3px;
+  position: absolute;
+  top: 9px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .xpotencn {
+  height: 32px;
+  left: 313px;
+  position: absolute;
+  top: 124px;
+  width: 35px;
+}
+
+.calculator-daily-UI .text-wrapper-31 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 29.2px;
+  font-weight: 400;
+  left: 17px;
+  letter-spacing: 0;
+  line-height: 30.3px;
+  position: absolute;
+  top: 2px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-32 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 16px;
+  font-weight: 400;
+  left: 0;
+  letter-spacing: 0;
+  line-height: 16.6px;
+  position: absolute;
+  top: 0;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  width: 16px;
+}
+
+.calculator-daily-UI .text-wrapper-33 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 27.5px;
+  font-weight: 400;
+  left: 194px;
+  letter-spacing: 0;
+  line-height: 28.5px;
+  position: absolute;
+  top: 296px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-34 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 21px;
+  font-weight: 500;
+  left: 207px;
+  letter-spacing: 0;
+  line-height: 21.7px;
+  position: absolute;
+  top: 257px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-35 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 25.9px;
+  font-weight: 400;
+  left: 92px;
+  letter-spacing: 0;
+  line-height: 26.8px;
+  position: absolute;
+  top: 298px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  width: 14px;
+}
+
+.calculator-daily-UI .text-wrapper-36 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 25.9px;
+  font-weight: 400;
+  left: 152px;
+  letter-spacing: 0;
+  line-height: 26.8px;
+  position: absolute;
+  top: 296px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  width: 17px;
+}
+
+.calculator-daily-UI .text-wrapper-37 {
+  color: #ff3a3a;
+  font-family: "Poppins", Helvetica;
+  font-size: 38.8px;
+  font-weight: 400;
+  left: 34px;
+  letter-spacing: 0;
+  line-height: 40.3px;
+  position: absolute;
+  top: 79px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-38 {
+  color: #ff3a3a;
+  font-family: "Poppins", Helvetica;
+  font-size: 38.8px;
+  font-weight: 400;
+  left: 35px;
+  letter-spacing: 0;
+  line-height: 40.3px;
+  position: absolute;
+  top: 138px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-39 {
+  color: #ff3a3a;
+  font-family: "Poppins", Helvetica;
+  font-size: 38.8px;
+  font-weight: 400;
+  left: 33px;
+  letter-spacing: 0;
+  line-height: 40.3px;
+  position: absolute;
+  top: 249px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .vezes {
+  height: 18px;
+  left: 36px;
+  position: absolute;
+  top: 205px;
+  transform: rotate(-180deg);
+  width: 18px;
+}
+
+.calculator-daily-UI .delete {
+  height: 30px;
+  left: 34px;
+  object-fit: cover;
+  position: absolute;
+  top: 298px;
+  transform: rotate(-180deg);
+  width: 30px;
+}
+
+.calculator-daily-UI .text-wrapper-40 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 17.7px;
+  font-weight: 400;
+  left: 156px;
+  letter-spacing: 0;
+  line-height: 18.3px;
+  position: absolute;
+  top: 260px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-41 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 17.7px;
+  font-weight: 400;
+  left: 90px;
+  letter-spacing: 0;
+  line-height: 18.3px;
+  position: absolute;
+  top: 260px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-42 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 29.2px;
+  font-weight: 400;
+  left: 405px;
+  letter-spacing: 0;
+  line-height: 30.3px;
+  position: absolute;
+  top: 252px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .element-pontecx {
+  height: 28px;
+  left: 390px;
+  position: absolute;
+  top: 294px;
+  width: 43px;
+}
+
+.calculator-daily-UI .text-wrapper-43 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 24.3px;
+  font-weight: 400;
+  left: 16px;
+  letter-spacing: 0;
+  line-height: 25.1px;
+  position: absolute;
+  top: 3px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .me-MS {
+  align-items: flex-start;
+  display: inline-flex;
+  gap: 26.31px;
+  left: 265px;
+  position: absolute;
+  top: 294px;
+}
+
+.calculator-daily-UI .text-wrapper-44 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 25.8px;
+  font-weight: 400;
+  left: 260px;
+  letter-spacing: 0;
+  line-height: 26.8px;
+  position: absolute;
+  top: 251px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.calculator-daily-UI .text-wrapper-45 {
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-size: 25.8px;
+  font-weight: 400;
+  left: 334px;
+  letter-spacing: 0;
+  line-height: 26.8px;
+  position: absolute;
+  top: 252px;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
