@@ -8,7 +8,7 @@ export const CalculatorDailyUi = (): JSX.Element => {
         <div className="overlap">
           <div className="historico">
             <div className="historico-items">
-              <img className="close-h" alt="Close h" src="/img/close-h.svg" />
+              <img className="close-h" alt="Close h" src="close-h.svg" />
               <div className="hist">
                 <div className="overlap-group">
                   <p className="text-wrapper">45 x 8 ÷ 2</p>
@@ -62,9 +62,9 @@ export const CalculatorDailyUi = (): JSX.Element => {
                 <div className="text-wrapper-3">=</div>
               </div>
               <div className="overlap-3">
-                <img className="selected-rec" alt="Selected rec" src="/img/selected-rec.svg" />
+                <img className="selected-rec" alt="Selected rec" src="selected-rec.svg" />
                 <div className="abas">
-                  <div className="historico-2" />
+                  <img className="historico-2" alt="historico 2" src="historical-1.png" />
                   <div className="text-wrapper-4">Scientific</div>
                   <p className="standard">
                     <span className="text-wrapper-5">Standard</span>
@@ -88,18 +88,18 @@ export const CalculatorDailyUi = (): JSX.Element => {
                   <div className="overlap-6">
                     <div className="numericals">
                       <div className="text-wrapper-10">7</div>
-                      <div className="text-wrapper-11">8</div>
-                      <div className="text-wrapper-12">9</div>
-                      <div className="text-wrapper-13">4</div>
-                      <div className="text-wrapper-14">5</div>
-                      <div className="text-wrapper-15">6</div>
-                      <div className="text-wrapper-16">1</div>
-                      <div className="text-wrapper-17">0</div>
-                      <div className="text-wrapper-18">2</div>
-                      <div className="text-wrapper-19">3</div>
-                      <div className="text-wrapper-20">.</div>
+                      <div className="text-wrapper-17">8</div>
+                      <div className="text-wrapper-20">9</div>
+                      <div className="text-wrapper-19">4</div>
+                      <div className="text-wrapper-18">5</div>
+                      <div className="text-wrapper-16">6</div>
+                      <div className="text-wrapper-15">1</div>
+                      <div className="text-wrapper-11">0</div>
+                      <div className="text-wrapper-14">2</div>
+                      <div className="text-wrapper-13">3</div>
+                      <div className="text-wrapper-12">.</div>
                     </div>
-                    <img className="plus-minus" alt="Plus minus" src="/img/plus-minus-2.png" />
+                    <img className="plus-minus" alt="Plus minus" src="plus-minus-2.png" />
                     <div className="log">
                       <div className="overlap-7">
                         <div className="text-wrapper-21">10</div>
@@ -135,7 +135,7 @@ export const CalculatorDailyUi = (): JSX.Element => {
                       <span className="text-wrapper-24">√</span>
                       <span className="text-wrapper-25">x</span>
                     </p>
-                    <div className="text-wrapper-27">3</div>
+                    <div className="text-wrapper-27-2">3</div>
                   </div>
                 </div>
                 <div className="text-wrapper-28">x³</div>
@@ -153,8 +153,8 @@ export const CalculatorDailyUi = (): JSX.Element => {
               <div className="text-wrapper-37">+</div>
               <div className="text-wrapper-38">-</div>
               <div className="text-wrapper-39">÷</div>
-              <img className="vezes" alt="Vezes" src="/img/vezes.svg" />
-              <img className="delete" alt="Delete" src="/img/delete-2.png" />
+              <img className="vezes" alt="Vezes" src="vezes.svg" />
+              <img className="delete" alt="Delete" src="delete-2.png" />
               <div className="text-wrapper-40">(</div>
               <div className="text-wrapper-41">)</div>
               <div className="text-wrapper-42">x!</div>
