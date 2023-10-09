@@ -323,9 +323,22 @@
 }
 
 .calculator-daily-UI .text-wrapper-9 {
+  color: #fff;
+  text-align: right;
+  background-color: #0000;
+  border: none;
+  width: 415px;
+  margin-bottom: 5px;
   font-size: 53.6px;
   font-weight: 500;
   line-height: 55.6px;
+  position: relative;
+  right: 280px;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+  outline: none;
 }
 
 .calculator-daily-UI .overlap-4 {
