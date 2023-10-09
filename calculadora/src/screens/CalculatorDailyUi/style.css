@@ -377,7 +377,6 @@
   position: absolute;
   top: 0;
   transform: rotate(180deg);
- 
   width: 175px;
 }
 
@@ -393,6 +392,7 @@
   top: 0px;
   white-space: nowrap;
   width: 20px;
+  cursor: pointer;
 }
 
 .calculator-daily-UI .text-wrapper-11 {
@@ -407,6 +407,7 @@
   top: 177px;
   white-space: nowrap;
   width: 23px;
+  cursor: pointer;
 }
 
 .calculator-daily-UI .text-wrapper-12 {
@@ -421,6 +422,7 @@
   top: 176px;
   white-space: nowrap;
   width: 23px;
+  cursor: pointer;
 }
 
 .calculator-daily-UI .text-wrapper-13 {
@@ -435,6 +437,7 @@
   top: 118px;
   white-space: nowrap;
   width: 20px;
+  cursor: pointer;
 }
 
 .calculator-daily-UI .text-wrapper-14 {
@@ -449,6 +452,7 @@
   top: 118px;
   white-space: nowrap;
   width: 23px;
+  cursor: pointer;
 }
 
 .calculator-daily-UI .text-wrapper-15 {
@@ -463,6 +467,7 @@
   top: 119px;
   white-space: nowrap;
   width: 23px;
+  cursor: pointer;
 }
 
 .calculator-daily-UI .text-wrapper-16 {
@@ -476,6 +481,7 @@
   position: absolute;
   top: 60px;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .calculator-daily-UI .text-wrapper-17 {
@@ -490,6 +496,7 @@
   top: 0;
   white-space: nowrap;
   width: 20px;
+  cursor: pointer;
 }
 
 .calculator-daily-UI .text-wrapper-18 {
@@ -504,6 +511,7 @@
   top: 59px;
   white-space: nowrap;
   width: 23px;
+  cursor: pointer;
 }
 
 .calculator-daily-UI .text-wrapper-19 {
@@ -518,6 +526,7 @@
   top: 59px;
   white-space: nowrap;
   width: 23px;
+  cursor: pointer;
 }
 
 .calculator-daily-UI .text-wrapper-20 {
@@ -531,6 +540,7 @@
   position: absolute;
   top: 0px;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .calculator-daily-UI .plus-minus {

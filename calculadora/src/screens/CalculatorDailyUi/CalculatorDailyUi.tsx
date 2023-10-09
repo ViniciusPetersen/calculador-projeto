@@ -1,7 +1,19 @@
 import React from "react";
 import "./style.css";
+import Numericos from "./Numericos";
+
+
+interface CalculatorDailyUiProps {
+  // Defina as props que a classe pai aceita aqui
+}
 
 export const CalculatorDailyUi = (): JSX.Element => {
+
+  const handleTextWrapperClick = (value: number | string) => {
+    console.log('Valor clicado:', value);
+    // Faça o que desejar com o valor clicado aqui, por exemplo, armazenar em um estado.
+  };
+
   return (
     <div className="calculator-daily-UI">
       <div className="overlap-wrapper">
@@ -86,19 +98,7 @@ export const CalculatorDailyUi = (): JSX.Element => {
               <div className="overlap-4">
                 <div className="overlap-5">
                   <div className="overlap-6">
-                    <div className="numericals">
-                      <div className="text-wrapper-10">7</div>
-                      <div className="text-wrapper-17">8</div>
-                      <div className="text-wrapper-20">9</div>
-                      <div className="text-wrapper-19">4</div>
-                      <div className="text-wrapper-18">5</div>
-                      <div className="text-wrapper-16">6</div>
-                      <div className="text-wrapper-15">1</div>
-                      <div className="text-wrapper-11">0</div>
-                      <div className="text-wrapper-14">2</div>
-                      <div className="text-wrapper-13">3</div>
-                      <div className="text-wrapper-12">.</div>
-                    </div>
+                    <Numericos onTextWrapperClick={handleTextWrapperClick} />
                     <img className="plus-minus" alt="Plus minus" src="plus-minus-2.png" />
                     <div className="log">
                       <div className="overlap-7">
