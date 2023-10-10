@@ -8,6 +8,7 @@ const Numericos: FC<NumericosProps> = ({ onTextWrapperClick }) => {
   const handleTextWrapperClick = (value: number | string) => {
     if (onTextWrapperClick) {
       onTextWrapperClick(value);
+      value = "";
     }
   };
 

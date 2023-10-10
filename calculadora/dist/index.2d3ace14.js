@@ -27171,15 +27171,19 @@ var _numericosDefault = parcelHelpers.interopDefault(_numericos);
 var _visor = require("./Visor");
 var _visorDefault = parcelHelpers.interopDefault(_visor);
 var _s = $RefreshSig$();
-var valorVisor = "";
+var valorVisor;
 const CalculatorDailyUi = ()=>{
     _s();
-    const [numeroVisor, setNumeroVisor] = (0, _react.useState)(valorVisor);
+    const [numeroVisor, setNumeroVisor] = (0, _react.useState)("");
+    const [valorVisor, setValorVisor] = (0, _react.useState)("");
+    (0, _react.useEffect)(()=>{
+        setNumeroVisor(valorVisor);
+    }, [
+        valorVisor
+    ]);
     const handleTextWrapperClick = (value)=>{
         console.log("Valor clicado:", value);
-        valorVisor = valorVisor + value;
-        setNumeroVisor(valorVisor);
-    // Faça o que desejar com o valor clicado aqui, por exemplo, armazenar em um estado.
+        setValorVisor((prevValorVisor)=>prevValorVisor === value ? "$" : value);
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "calculator-daily-UI",
@@ -27199,7 +27203,7 @@ const CalculatorDailyUi = ()=>{
                                     src: "close-h.svg"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 27,
+                                    lineNumber: 32,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27212,7 +27216,7 @@ const CalculatorDailyUi = ()=>{
                                                 children: "45 x 8 \xf7 2"
                                             }, void 0, false, {
                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 30,
+                                                lineNumber: 35,
                                                 columnNumber: 19
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27222,12 +27226,12 @@ const CalculatorDailyUi = ()=>{
                                                         className: "span",
                                                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 33,
+                                                            lineNumber: 38,
                                                             columnNumber: 23
                                                         }, undefined)
                                                     }, void 0, false, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 32,
+                                                        lineNumber: 37,
                                                         columnNumber: 21
                                                     }, undefined),
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27235,24 +27239,24 @@ const CalculatorDailyUi = ()=>{
                                                         children: "180"
                                                     }, void 0, false, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 35,
+                                                        lineNumber: 40,
                                                         columnNumber: 21
                                                     }, undefined)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 31,
+                                                lineNumber: 36,
                                                 columnNumber: 19
                                             }, undefined)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                        lineNumber: 29,
+                                        lineNumber: 34,
                                         columnNumber: 17
                                     }, undefined)
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 28,
+                                    lineNumber: 33,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27265,7 +27269,7 @@ const CalculatorDailyUi = ()=>{
                                                 children: "45 x 8 \xf7 2"
                                             }, void 0, false, {
                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 41,
+                                                lineNumber: 46,
                                                 columnNumber: 19
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27275,12 +27279,12 @@ const CalculatorDailyUi = ()=>{
                                                         className: "span",
                                                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 44,
+                                                            lineNumber: 49,
                                                             columnNumber: 23
                                                         }, undefined)
                                                     }, void 0, false, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 43,
+                                                        lineNumber: 48,
                                                         columnNumber: 21
                                                     }, undefined),
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27288,24 +27292,24 @@ const CalculatorDailyUi = ()=>{
                                                         children: "180"
                                                     }, void 0, false, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 46,
+                                                        lineNumber: 51,
                                                         columnNumber: 21
                                                     }, undefined)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 42,
+                                                lineNumber: 47,
                                                 columnNumber: 19
                                             }, undefined)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                        lineNumber: 40,
+                                        lineNumber: 45,
                                         columnNumber: 17
                                     }, undefined)
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 39,
+                                    lineNumber: 44,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27318,7 +27322,7 @@ const CalculatorDailyUi = ()=>{
                                                 children: "45 x 8 \xf7 2"
                                             }, void 0, false, {
                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 52,
+                                                lineNumber: 57,
                                                 columnNumber: 19
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27328,12 +27332,12 @@ const CalculatorDailyUi = ()=>{
                                                         className: "span",
                                                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 55,
+                                                            lineNumber: 60,
                                                             columnNumber: 23
                                                         }, undefined)
                                                     }, void 0, false, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 54,
+                                                        lineNumber: 59,
                                                         columnNumber: 21
                                                     }, undefined),
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27341,24 +27345,24 @@ const CalculatorDailyUi = ()=>{
                                                         children: "180"
                                                     }, void 0, false, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 57,
+                                                        lineNumber: 62,
                                                         columnNumber: 21
                                                     }, undefined)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 53,
+                                                lineNumber: 58,
                                                 columnNumber: 19
                                             }, undefined)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                        lineNumber: 51,
+                                        lineNumber: 56,
                                         columnNumber: 17
                                     }, undefined)
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 50,
+                                    lineNumber: 55,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27371,7 +27375,7 @@ const CalculatorDailyUi = ()=>{
                                                 children: "45 x 8 \xf7 2"
                                             }, void 0, false, {
                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 63,
+                                                lineNumber: 68,
                                                 columnNumber: 19
                                             }, undefined),
                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27381,12 +27385,12 @@ const CalculatorDailyUi = ()=>{
                                                         className: "span",
                                                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 66,
+                                                            lineNumber: 71,
                                                             columnNumber: 23
                                                         }, undefined)
                                                     }, void 0, false, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 65,
+                                                        lineNumber: 70,
                                                         columnNumber: 21
                                                     }, undefined),
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27394,35 +27398,35 @@ const CalculatorDailyUi = ()=>{
                                                         children: "180"
                                                     }, void 0, false, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 68,
+                                                        lineNumber: 73,
                                                         columnNumber: 21
                                                     }, undefined)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 64,
+                                                lineNumber: 69,
                                                 columnNumber: 19
                                             }, undefined)
                                         ]
                                     }, void 0, true, {
                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                        lineNumber: 62,
+                                        lineNumber: 67,
                                         columnNumber: 17
                                     }, undefined)
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 61,
+                                    lineNumber: 66,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                            lineNumber: 26,
+                            lineNumber: 31,
                             columnNumber: 13
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                        lineNumber: 25,
+                        lineNumber: 30,
                         columnNumber: 11
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27437,7 +27441,7 @@ const CalculatorDailyUi = ()=>{
                                             className: "solve-button"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 77,
+                                            lineNumber: 82,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27445,13 +27449,13 @@ const CalculatorDailyUi = ()=>{
                                             children: "="
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 78,
+                                            lineNumber: 83,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 76,
+                                    lineNumber: 81,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27463,7 +27467,7 @@ const CalculatorDailyUi = ()=>{
                                             src: "selected-rec.svg"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 81,
+                                            lineNumber: 86,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27475,7 +27479,7 @@ const CalculatorDailyUi = ()=>{
                                                     src: "historical-1.png"
                                                 }, void 0, false, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 83,
+                                                    lineNumber: 88,
                                                     columnNumber: 19
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27483,7 +27487,7 @@ const CalculatorDailyUi = ()=>{
                                                     children: "Scientific"
                                                 }, void 0, false, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 84,
+                                                    lineNumber: 89,
                                                     columnNumber: 19
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27494,7 +27498,7 @@ const CalculatorDailyUi = ()=>{
                                                             children: "Standard"
                                                         }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 86,
+                                                            lineNumber: 91,
                                                             columnNumber: 21
                                                         }, undefined),
                                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27502,32 +27506,32 @@ const CalculatorDailyUi = ()=>{
                                                             children: "\xa0"
                                                         }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 87,
+                                                            lineNumber: 92,
                                                             columnNumber: 21
                                                         }, undefined)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 85,
+                                                    lineNumber: 90,
                                                     columnNumber: 19
                                                 }, undefined)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 82,
+                                            lineNumber: 87,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 80,
+                                    lineNumber: 85,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _visorDefault.default), {
                                     numeroVisor: numeroVisor
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 91,
+                                    lineNumber: 96,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27543,7 +27547,7 @@ const CalculatorDailyUi = ()=>{
                                                             onTextWrapperClick: handleTextWrapperClick
                                                         }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 95,
+                                                            lineNumber: 100,
                                                             columnNumber: 21
                                                         }, undefined),
                                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
@@ -27552,7 +27556,7 @@ const CalculatorDailyUi = ()=>{
                                                             src: "plus-minus-2.png"
                                                         }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 96,
+                                                            lineNumber: 101,
                                                             columnNumber: 21
                                                         }, undefined),
                                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27565,7 +27569,7 @@ const CalculatorDailyUi = ()=>{
                                                                         children: "10"
                                                                     }, void 0, false, {
                                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                        lineNumber: 99,
+                                                                        lineNumber: 104,
                                                                         columnNumber: 25
                                                                     }, undefined),
                                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27573,24 +27577,24 @@ const CalculatorDailyUi = ()=>{
                                                                         children: "log"
                                                                     }, void 0, false, {
                                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                        lineNumber: 100,
+                                                                        lineNumber: 105,
                                                                         columnNumber: 25
                                                                     }, undefined)
                                                                 ]
                                                             }, void 0, true, {
                                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 98,
+                                                                lineNumber: 103,
                                                                 columnNumber: 23
                                                             }, undefined)
                                                         }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 97,
+                                                            lineNumber: 102,
                                                             columnNumber: 21
                                                         }, undefined)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 94,
+                                                    lineNumber: 99,
                                                     columnNumber: 19
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27598,7 +27602,7 @@ const CalculatorDailyUi = ()=>{
                                                     children: "x\xb2"
                                                 }, void 0, false, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 104,
+                                                    lineNumber: 109,
                                                     columnNumber: 19
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27611,7 +27615,7 @@ const CalculatorDailyUi = ()=>{
                                                                 children: "√"
                                                             }, void 0, false, {
                                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 107,
+                                                                lineNumber: 112,
                                                                 columnNumber: 23
                                                             }, undefined),
                                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27619,18 +27623,18 @@ const CalculatorDailyUi = ()=>{
                                                                 children: "x"
                                                             }, void 0, false, {
                                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 108,
+                                                                lineNumber: 113,
                                                                 columnNumber: 23
                                                             }, undefined)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 106,
+                                                        lineNumber: 111,
                                                         columnNumber: 21
                                                     }, undefined)
                                                 }, void 0, false, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 105,
+                                                    lineNumber: 110,
                                                     columnNumber: 19
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27641,7 +27645,7 @@ const CalculatorDailyUi = ()=>{
                                                             children: "tg"
                                                         }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 112,
+                                                            lineNumber: 117,
                                                             columnNumber: 21
                                                         }, undefined),
                                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27649,7 +27653,7 @@ const CalculatorDailyUi = ()=>{
                                                             children: "cos"
                                                         }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 113,
+                                                            lineNumber: 118,
                                                             columnNumber: 21
                                                         }, undefined),
                                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27657,19 +27661,19 @@ const CalculatorDailyUi = ()=>{
                                                             children: "sen"
                                                         }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 114,
+                                                            lineNumber: 119,
                                                             columnNumber: 21
                                                         }, undefined)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 111,
+                                                    lineNumber: 116,
                                                     columnNumber: 19
                                                 }, undefined)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 93,
+                                            lineNumber: 98,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27682,7 +27686,7 @@ const CalculatorDailyUi = ()=>{
                                                         children: "n"
                                                     }, void 0, false, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 119,
+                                                        lineNumber: 124,
                                                         columnNumber: 21
                                                     }, undefined),
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27693,7 +27697,7 @@ const CalculatorDailyUi = ()=>{
                                                                 children: "√"
                                                             }, void 0, false, {
                                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 121,
+                                                                lineNumber: 126,
                                                                 columnNumber: 23
                                                             }, undefined),
                                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27701,24 +27705,24 @@ const CalculatorDailyUi = ()=>{
                                                                 children: "x"
                                                             }, void 0, false, {
                                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 122,
+                                                                lineNumber: 127,
                                                                 columnNumber: 23
                                                             }, undefined)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 120,
+                                                        lineNumber: 125,
                                                         columnNumber: 21
                                                     }, undefined)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 118,
+                                                lineNumber: 123,
                                                 columnNumber: 19
                                             }, undefined)
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 117,
+                                            lineNumber: 122,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27734,7 +27738,7 @@ const CalculatorDailyUi = ()=>{
                                                                 children: "√"
                                                             }, void 0, false, {
                                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 129,
+                                                                lineNumber: 134,
                                                                 columnNumber: 23
                                                             }, undefined),
                                                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27742,13 +27746,13 @@ const CalculatorDailyUi = ()=>{
                                                                 children: "x"
                                                             }, void 0, false, {
                                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 130,
+                                                                lineNumber: 135,
                                                                 columnNumber: 23
                                                             }, undefined)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 128,
+                                                        lineNumber: 133,
                                                         columnNumber: 21
                                                     }, undefined),
                                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27756,18 +27760,18 @@ const CalculatorDailyUi = ()=>{
                                                         children: "3"
                                                     }, void 0, false, {
                                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 132,
+                                                        lineNumber: 137,
                                                         columnNumber: 21
                                                     }, undefined)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 127,
+                                                lineNumber: 132,
                                                 columnNumber: 19
                                             }, undefined)
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 126,
+                                            lineNumber: 131,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27775,7 +27779,7 @@ const CalculatorDailyUi = ()=>{
                                             children: "x\xb3"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 135,
+                                            lineNumber: 140,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27783,7 +27787,7 @@ const CalculatorDailyUi = ()=>{
                                             children: "π"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 136,
+                                            lineNumber: 141,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27791,7 +27795,7 @@ const CalculatorDailyUi = ()=>{
                                             children: "e"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 137,
+                                            lineNumber: 142,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27802,7 +27806,7 @@ const CalculatorDailyUi = ()=>{
                                                     children: "x"
                                                 }, void 0, false, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 139,
+                                                    lineNumber: 144,
                                                     columnNumber: 19
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27810,19 +27814,19 @@ const CalculatorDailyUi = ()=>{
                                                     children: "n"
                                                 }, void 0, false, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 140,
+                                                    lineNumber: 145,
                                                     columnNumber: 19
                                                 }, undefined)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 138,
+                                            lineNumber: 143,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 92,
+                                    lineNumber: 97,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27830,7 +27834,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "rest"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 143,
+                                    lineNumber: 148,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27838,7 +27842,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "1/X"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 144,
+                                    lineNumber: 149,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27846,7 +27850,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "C"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 145,
+                                    lineNumber: 150,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27854,7 +27858,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "%"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 146,
+                                    lineNumber: 151,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27862,7 +27866,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "+"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 147,
+                                    lineNumber: 152,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27870,7 +27874,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "-"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 148,
+                                    lineNumber: 153,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27878,7 +27882,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "\xf7"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 149,
+                                    lineNumber: 154,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
@@ -27887,7 +27891,7 @@ const CalculatorDailyUi = ()=>{
                                     src: "vezes.svg"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 150,
+                                    lineNumber: 155,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
@@ -27896,7 +27900,7 @@ const CalculatorDailyUi = ()=>{
                                     src: "delete-2.png"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 151,
+                                    lineNumber: 156,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27904,7 +27908,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "("
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 152,
+                                    lineNumber: 157,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27912,7 +27916,7 @@ const CalculatorDailyUi = ()=>{
                                     children: ")"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 153,
+                                    lineNumber: 158,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27920,7 +27924,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "x!"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 154,
+                                    lineNumber: 159,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27931,7 +27935,7 @@ const CalculatorDailyUi = ()=>{
                                             children: "10"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 156,
+                                            lineNumber: 161,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27939,13 +27943,13 @@ const CalculatorDailyUi = ()=>{
                                             children: "X"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 157,
+                                            lineNumber: 162,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 155,
+                                    lineNumber: 160,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27956,7 +27960,7 @@ const CalculatorDailyUi = ()=>{
                                             children: "MS"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 160,
+                                            lineNumber: 165,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27964,13 +27968,13 @@ const CalculatorDailyUi = ()=>{
                                             children: "M+"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 161,
+                                            lineNumber: 166,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 159,
+                                    lineNumber: 164,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27978,7 +27982,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "MC"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 163,
+                                    lineNumber: 168,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27986,38 +27990,38 @@ const CalculatorDailyUi = ()=>{
                                     children: "M-"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 164,
+                                    lineNumber: 169,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                            lineNumber: 75,
+                            lineNumber: 80,
                             columnNumber: 13
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                        lineNumber: 74,
+                        lineNumber: 79,
                         columnNumber: 11
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                lineNumber: 24,
+                lineNumber: 29,
                 columnNumber: 9
             }, undefined)
         }, void 0, false, {
             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-            lineNumber: 23,
+            lineNumber: 28,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-        lineNumber: 22,
+        lineNumber: 27,
         columnNumber: 5
     }, undefined);
 };
-_s(CalculatorDailyUi, "yGUijSy9sVGbz2QOIZYWMhPiTSQ=");
+_s(CalculatorDailyUi, "g+xGYwuuQfxlAOZy+Gt9j6/jLmo=");
 _c = CalculatorDailyUi;
 var _c;
 $RefreshReg$(_c, "CalculatorDailyUi");
@@ -28673,7 +28677,10 @@ var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 const Numericos = ({ onTextWrapperClick })=>{
     const handleTextWrapperClick = (value)=>{
-        if (onTextWrapperClick) onTextWrapperClick(value);
+        if (onTextWrapperClick) {
+            onTextWrapperClick(value);
+            value = "";
+        }
     };
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28685,7 +28692,7 @@ const Numericos = ({ onTextWrapperClick })=>{
                     children: "7"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                    lineNumber: 17,
+                    lineNumber: 18,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28694,7 +28701,7 @@ const Numericos = ({ onTextWrapperClick })=>{
                     children: "8"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                    lineNumber: 18,
+                    lineNumber: 19,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28703,7 +28710,7 @@ const Numericos = ({ onTextWrapperClick })=>{
                     children: "9"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                    lineNumber: 19,
+                    lineNumber: 20,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28712,7 +28719,7 @@ const Numericos = ({ onTextWrapperClick })=>{
                     children: "4"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                    lineNumber: 20,
+                    lineNumber: 21,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28721,7 +28728,7 @@ const Numericos = ({ onTextWrapperClick })=>{
                     children: "5"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                    lineNumber: 21,
+                    lineNumber: 22,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28730,7 +28737,7 @@ const Numericos = ({ onTextWrapperClick })=>{
                     children: "6"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                    lineNumber: 22,
+                    lineNumber: 23,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28739,7 +28746,7 @@ const Numericos = ({ onTextWrapperClick })=>{
                     children: "1"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                    lineNumber: 23,
+                    lineNumber: 24,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28748,7 +28755,7 @@ const Numericos = ({ onTextWrapperClick })=>{
                     children: "0"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                    lineNumber: 24,
+                    lineNumber: 25,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28757,7 +28764,7 @@ const Numericos = ({ onTextWrapperClick })=>{
                     children: "2"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                    lineNumber: 25,
+                    lineNumber: 26,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28766,7 +28773,7 @@ const Numericos = ({ onTextWrapperClick })=>{
                     children: "3"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                    lineNumber: 26,
+                    lineNumber: 27,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -28775,18 +28782,18 @@ const Numericos = ({ onTextWrapperClick })=>{
                     children: "."
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                    lineNumber: 27,
+                    lineNumber: 28,
                     columnNumber: 9
                 }, undefined)
             ]
         }, void 0, true, {
             fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-            lineNumber: 16,
+            lineNumber: 17,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-        lineNumber: 15,
+        lineNumber: 16,
         columnNumber: 5
     }, undefined);
 };
@@ -28813,18 +28820,43 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _s = $RefreshSig$();
+var inputValue = "";
+var auxnumerovisor = "";
 const Visor = ({ numeroVisor })=>{
     _s();
     const ajuste = ()=>{
+        const visElement = document.getElementById("vis");
+        console.log("ck2");
+        if (visElement) {
+            console.log("->" + numeroVisor);
+            if (numeroVisor == ".") {
+                var inputElement = visElement.value;
+                visElement.value = inputElement + numeroVisor;
+                numeroVisor = "";
+            }
+            if (numeroVisor == "$") {
+                var inputElement = visElement.value;
+                visElement.value = inputElement + auxnumerovisor;
+                auxnumerovisor = "";
+            } else {
+                auxnumerovisor = numeroVisor;
+                var inputElement = visElement.value;
+                visElement.value = inputElement + numeroVisor;
+                numeroVisor = "";
+            }
+        } else console.error('Elemento com o ID "vis" n\xe3o encontrado no DOM.');
         const dynamicText = document.getElementById("vis");
         const tamanhoMaximo = 60;
         const tamanhoTexto = tamanhoMaximo - 1.3 * dynamicText.value.length;
         dynamicText.style.fontSize = tamanhoTexto + "px";
     };
     (0, _react.useEffect)(()=>{
-        ajuste(); // Chama o ajuste inicialmente
+        console.log("ck1");
+        ajuste();
+        console.log(numeroVisor);
     }, [
-        numeroVisor
+        numeroVisor,
+        inputValue
     ]);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "answer-box",
@@ -28836,7 +28868,7 @@ const Visor = ({ numeroVisor })=>{
                     children: "45 x 8 \xf7 2"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-                    lineNumber: 22,
+                    lineNumber: 53,
                     columnNumber: 17
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -28846,40 +28878,38 @@ const Visor = ({ numeroVisor })=>{
                             className: "text-wrapper-8",
                             children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                 fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-                                lineNumber: 25,
+                                lineNumber: 56,
                                 columnNumber: 25
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-                            lineNumber: 24,
+                            lineNumber: 55,
                             columnNumber: 21
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                            type: "number",
                             className: "text-wrapper-9",
                             id: "vis",
-                            onChange: ajuste,
-                            value: numeroVisor
+                            onChange: ajuste
                         }, void 0, false, {
                             fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-                            lineNumber: 27,
+                            lineNumber: 58,
                             columnNumber: 21
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-                    lineNumber: 23,
+                    lineNumber: 54,
                     columnNumber: 17
                 }, undefined)
             ]
         }, void 0, true, {
             fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-            lineNumber: 21,
+            lineNumber: 52,
             columnNumber: 13
         }, undefined)
     }, void 0, false, {
         fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-        lineNumber: 20,
+        lineNumber: 51,
         columnNumber: 9
     }, undefined);
 };

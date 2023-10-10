@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import Numericos from "./Numericos";
 import Visor from "./Visor";
-var valorVisor = '';
+var valorVisor: number | string;
 
 
 interface CalculatorDailyUiProps {
@@ -10,12 +10,17 @@ interface CalculatorDailyUiProps {
 }
 
 export const CalculatorDailyUi = (): JSX.Element => {
-  const [numeroVisor, setNumeroVisor] = useState(valorVisor);
+  const [numeroVisor, setNumeroVisor] = useState<number | string>('');
+  const [valorVisor, setValorVisor] = useState<number | string>('');
+
+  useEffect(() => {
+    setNumeroVisor(valorVisor);
+  }, [valorVisor]);
+
   const handleTextWrapperClick = (value: number | string) => {
     console.log('Valor clicado:', value);
-    valorVisor = valorVisor + value;
-    setNumeroVisor(valorVisor);
-    // Faça o que desejar com o valor clicado aqui, por exemplo, armazenar em um estado.
+    setValorVisor(prevValorVisor => prevValorVisor === value ? '$' : value);
+   
   };
 
   return (

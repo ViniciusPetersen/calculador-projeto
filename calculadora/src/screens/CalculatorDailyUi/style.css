@@ -353,7 +353,7 @@
   text-align: right;
   width: 415px;
   border: none;
-  
+  outline: none;
   margin-bottom: 5px;
 }
 input[type=number]{
