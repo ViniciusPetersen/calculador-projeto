@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 
 interface NumericosProps {
   onTextWrapperClick: (value: number | string) => void;
@@ -8,13 +8,41 @@ const Numericos: FC<NumericosProps> = ({ onTextWrapperClick }) => {
   const handleTextWrapperClick = (value: number | string) => {
     if (onTextWrapperClick) {
       onTextWrapperClick(value);
-      value = "";
     }
   };
 
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      const keyToValueMap: { [key: string]: number | string } = {
+        'Digit7': 7,
+        'Digit8': 8,
+        'Digit9': 9,
+        'Digit4': 4,
+        'Digit5': 5,
+        'Digit6': 6,
+        'Digit1': 1,
+        'Digit0': 0,
+        'Digit2': 2,
+        'Digit3': 3,
+        'Period': '.'
+      };
+
+      const value = keyToValueMap[event.code];
+      if (value !== undefined) {
+        handleTextWrapperClick(value);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handleTextWrapperClick]);
+
   return (
     <div>
-      <div className="numericals">
+      <div className="numericals">      
         <div className="text-wrapper-10" onClick={() => handleTextWrapperClick(7)}>7</div>
         <div className="text-wrapper-17" onClick={() => handleTextWrapperClick(8)}>8</div>
         <div className="text-wrapper-20" onClick={() => handleTextWrapperClick(9)}>9</div>

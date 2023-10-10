@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import Numericos from "./Numericos";
 import Visor from "./Visor";
-var valorVisor: number | string;
+var valorVisor: number | string="";
 
 
 interface CalculatorDailyUiProps {
@@ -11,16 +11,20 @@ interface CalculatorDailyUiProps {
 
 export const CalculatorDailyUi = (): JSX.Element => {
   const [numeroVisor, setNumeroVisor] = useState<number | string>('');
-  const [valorVisor, setValorVisor] = useState<number | string>('');
 
-  useEffect(() => {
-    setNumeroVisor(valorVisor);
-  }, [valorVisor]);
+  const [visorValue, setVisorValue] = useState<number | string>('');
+
+  const handleValueChange = (newValue: number | string) => {
+    // Faça o que precisar com o valor atualizado
+    console.log('Valor do visor atualizado:', newValue);
+    setVisorValue(newValue);
+  };
+
 
   const handleTextWrapperClick = (value: number | string) => {
     console.log('Valor clicado:', value);
-    setValorVisor(prevValorVisor => prevValorVisor === value ? '$' : value);
-   
+    valorVisor = valorVisor + "" + value;
+    setNumeroVisor(valorVisor);
   };
 
   return (
@@ -93,7 +97,7 @@ export const CalculatorDailyUi = (): JSX.Element => {
                   </p>
                 </div>
               </div>
-              <Visor numeroVisor={numeroVisor} />
+              <Visor numeroVisor={numeroVisor} onValueChange={handleValueChange} />
               <div className="overlap-4">
                 <div className="overlap-5">
                   <div className="overlap-6">
