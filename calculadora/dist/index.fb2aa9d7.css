@@ -370,8 +370,8 @@ input[type="number"] {
   width: 175px;
   height: 215px;
   position: absolute;
-  top: 0;
-  left: -27px;
+  top: 20px;
+  left: 60px;
   transform: rotate(180deg);
 }
 

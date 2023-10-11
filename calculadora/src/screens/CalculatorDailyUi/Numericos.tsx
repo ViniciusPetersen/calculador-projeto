@@ -24,7 +24,14 @@ const Numericos: FC<NumericosProps> = ({ onTextWrapperClick }) => {
         'Digit0': 0,
         'Digit2': 2,
         'Digit3': 3,
-        'Period': '.'
+        'Period': '.',
+        'NumpadAdd': '+',
+        'Equal': '+', // Em alguns teclados, a tecla de adição é representada como 'Equal'
+        'NumpadSubtract': '-',
+        'Minus': '-', // Em alguns teclados, a tecla de subtração é representada como 'Minus'
+        'NumpadDivide': '/',
+        'Slash': '/', // Em alguns teclados, a tecla de divisão é representada como 'Slash'
+        'Backspace': '$'
       };
 
       const value = keyToValueMap[event.code];
@@ -42,6 +49,17 @@ const Numericos: FC<NumericosProps> = ({ onTextWrapperClick }) => {
 
   return (
     <div>
+      <div className="text-wrapper-33">rest</div>
+              <div className="text-wrapper-34">1/X</div>
+              <div className="text-wrapper-35">C</div>
+              <div className="text-wrapper-36">%</div>
+              <div className="text-wrapper-37" onClick={() => handleTextWrapperClick("+")}>+</div>
+              <div className="text-wrapper-38" onClick={() => handleTextWrapperClick("-")}>-</div>
+              <div className="text-wrapper-39" onClick={() => handleTextWrapperClick("/")}>÷</div>
+              <img className="vezes" alt="Vezes" src="vezes.svg" onClick={() => handleTextWrapperClick("*")} />
+              <img className="delete" alt="Delete" src="delete-2.png" onClick={() => handleTextWrapperClick("$")} />
+              <div className="text-wrapper-40">(</div>
+              <div className="text-wrapper-41">)</div>
       <div className="numericals">      
         <div className="text-wrapper-10" onClick={() => handleTextWrapperClick(7)}>7</div>
         <div className="text-wrapper-17" onClick={() => handleTextWrapperClick(8)}>8</div>
@@ -55,7 +73,6 @@ const Numericos: FC<NumericosProps> = ({ onTextWrapperClick }) => {
         <div className="text-wrapper-13" onClick={() => handleTextWrapperClick(3)}>3</div>
         <div className="text-wrapper-12" onClick={() => handleTextWrapperClick('.')}>.</div>
       </div>
-      
     </div>
   );
 }

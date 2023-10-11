@@ -2,30 +2,127 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import Numericos from "./Numericos";
 import Visor from "./Visor";
-var valorVisor: number | string="";
+import { func } from "prop-types";
+var valorVisor: number|string="";
 
 
 interface CalculatorDailyUiProps {
   // Defina as props que a classe pai aceita aqui
 }
 
+
+
 export const CalculatorDailyUi = (): JSX.Element => {
-  const [numeroVisor, setNumeroVisor] = useState<number | string>('');
+  const [numeroVisor, setNumeroVisor] = useState<number |string>('');
 
-  const [visorValue, setVisorValue] = useState<number | string>('');
+  const [visorValue, setVisorValue] = useState<string>('');
 
-  const handleValueChange = (newValue: number | string) => {
+  const handleValueChange = (newValue:string) => {
     // Faça o que precisar com o valor atualizado
     console.log('Valor do visor atualizado:', newValue);
     setVisorValue(newValue);
   };
 
 
-  const handleTextWrapperClick = (value: number | string) => {
+  const handleTextWrapperClick = (value:string) => {
     console.log('Valor clicado:', value);
+    if(value=="$"){
+      valorVisor = valorVisor.substring(0, valorVisor.length - 1);
+      value ="";
+    }
     valorVisor = valorVisor + "" + value;
+    setVisorValue(valorVisor);
     setNumeroVisor(valorVisor);
   };
+  function equals(): number | null {
+    // Encontrar todos os operadores na expressão
+    const operadores = ['+', '-', '*', '/'];
+    const operadoresEncontrados: { operador: string; posicao: number }[] = [];
+  
+    // Encontrar as posições de todos os operadores
+    for (const operador of operadores) {
+      let posicao = -1;
+      while ((posicao = visorValue.indexOf(operador, posicao + 1)) !== -1) {
+        operadoresEncontrados.push({ operador, posicao });
+      }
+    }
+  
+    // Verificar se operadores foram encontrados
+    if (operadoresEncontrados.length === 0) {
+      console.error('Nenhum operador encontrado na expressão.');
+      return null;
+    }
+  
+    // Ordenar os operadores por posição
+    operadoresEncontrados.sort((a, b) => a.posicao - b.posicao);
+  
+    // Dividir a expressão em partes usando os operadores
+    const partes: string[] = [];
+    let inicio = 0;
+    for (const operadorInfo of operadoresEncontrados) {
+      const { operador, posicao } = operadorInfo;
+      partes.push(visorValue.slice(inicio, posicao));
+      partes.push(operador);
+      inicio = posicao + 1;
+    }
+    partes.push(visorValue.slice(inicio)); // Adicionar a última parte
+  
+    // Realizar primeiro as operações de multiplicação e divisão
+    
+
+    let i = 1;
+    while (i < partes.length) {
+      console.log("parte:"+partes[i]);
+      
+      if (partes[i] === '*' || partes[i] === '/') {
+        const operador = partes[i];
+        const numero1 = parseFloat(partes[i - 1]);
+        const numero2 = parseFloat(partes[i + 1]);
+        
+        
+        let resultadoOperacao: number;
+  
+        if (operador === '*') {
+          resultadoOperacao = numero1 * numero2;
+        } else {
+          if (numero2 === 0) {
+            console.error('Divisão por zero não é permitida.');
+            return null;
+          }
+          resultadoOperacao = numero1 / numero2;
+        }
+        console.log(resultadoOperacao);
+        
+        partes.splice(i - 1, 3, resultadoOperacao.toString()); // Substituir os números e o operador pela operação resultante
+      } else {
+        i += 2; // Avançar para o próximo operador
+      }
+    }
+  
+    // Em seguida, realizar as operações de adição e subtração
+    let resultado = parseFloat(partes[0]);
+    i = 1;
+    while (i < partes.length) {
+      const operador = partes[i];
+      const numero = parseFloat(partes[i + 1]);
+  
+      switch (operador) {
+        case '+':
+          resultado += numero;
+          break;
+        case '-':
+          resultado -= numero;
+          break;
+      }
+  
+      i += 2; // Avançar para o próximo operador
+    }
+  
+  
+    valorVisor = resultado;
+    setNumeroVisor(resultado);
+    return resultado;
+  }
 
   return (
     <div className="calculator-daily-UI">
@@ -82,7 +179,8 @@ export const CalculatorDailyUi = (): JSX.Element => {
           </div>
           <div className="boxcalc">
             <div className="caixa">
-              <div className="overlap-2">
+            
+              <div className="overlap-2" onClick={equals}>
                 <div className="solve-button" />
                 <div className="text-wrapper-3">=</div>
               </div>
@@ -97,11 +195,11 @@ export const CalculatorDailyUi = (): JSX.Element => {
                   </p>
                 </div>
               </div>
-              <Visor numeroVisor={numeroVisor} onValueChange={handleValueChange} />
+              <Visor numeroVisor={numeroVisor}  />
+              
               <div className="overlap-4">
                 <div className="overlap-5">
                   <div className="overlap-6">
-                    <Numericos onTextWrapperClick={handleTextWrapperClick} />
                     <img className="plus-minus" alt="Plus minus" src="plus-minus-2.png" />
                     <div className="log">
                       <div className="overlap-7">
@@ -149,17 +247,7 @@ export const CalculatorDailyUi = (): JSX.Element => {
                   <div className="text-wrapper-32">n</div>
                 </div>
               </div>
-              <div className="text-wrapper-33">rest</div>
-              <div className="text-wrapper-34">1/X</div>
-              <div className="text-wrapper-35">C</div>
-              <div className="text-wrapper-36">%</div>
-              <div className="text-wrapper-37">+</div>
-              <div className="text-wrapper-38">-</div>
-              <div className="text-wrapper-39">÷</div>
-              <img className="vezes" alt="Vezes" src="vezes.svg" />
-              <img className="delete" alt="Delete" src="delete-2.png" />
-              <div className="text-wrapper-40">(</div>
-              <div className="text-wrapper-41">)</div>
+              
               <div className="text-wrapper-42">x!</div>
               <div className="element-pontecx">
                 <div className="text-wrapper-43">10</div>
@@ -171,6 +259,7 @@ export const CalculatorDailyUi = (): JSX.Element => {
               </div>
               <div className="text-wrapper-44">MC</div>
               <div className="text-wrapper-45">M-</div>
+              <Numericos onTextWrapperClick={handleTextWrapperClick} />
             </div>
           </div>
         </div>
