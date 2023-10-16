@@ -22,7 +22,7 @@
 
 .calculator-daily-UI .historico {
   border-radius: 17.79px;
-  width: 317px;
+  width: 327px;
   height: 560px;
   position: absolute;
   top: 0;
@@ -35,7 +35,7 @@
   border-radius: 17.79px;
   height: 560px;
   position: relative;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .calculator-daily-UI .close-h {
@@ -55,7 +55,7 @@
 }
 
 .calculator-daily-UI .overlap-group {
-  width: 132px;
+  width: 82px;
   height: 67px;
   position: relative;
 }
@@ -117,16 +117,15 @@
   left: 62px;
 }
 
-.calculator-daily-UI .div {
-  width: 136px;
-  height: 67px;
-  position: absolute;
-  top: 473px;
-  left: 62px;
+.calculator-daily-UI .div2 {
+  width: 100px;
+  position: relative;
+  top: 30px;
+  left: 66px;
 }
 
 .calculator-daily-UI .p {
-  color: #fff;
+  color: #b8b8b8;
   letter-spacing: 0;
   white-space: nowrap;
   font-family: Poppins, Helvetica;
@@ -134,7 +133,7 @@
   font-weight: 400;
   line-height: 16.2px;
   position: absolute;
-  top: 0;
+  top: -2px;
   left: 1px;
 }
 
@@ -285,13 +284,13 @@
 }
 
 .calculator-daily-UI .text-wrapper-7 {
-  color: #fff;
+  color: #727272;
   letter-spacing: 0;
   text-align: right;
   white-space: nowrap;
   width: 59px;
   font-family: Poppins, Helvetica;
-  font-size: 12.6px;
+  font-size: 22.6px;
   font-weight: 400;
   line-height: 13.1px;
   position: absolute;
@@ -543,8 +542,8 @@ input[type="number"] {
   width: 30px;
   height: 30px;
   position: absolute;
-  top: 5px;
-  left: 117px;
+  top: 24px;
+  left: 203px;
   transform: rotate(-180deg);
 }
 

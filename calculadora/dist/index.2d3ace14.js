@@ -27172,6 +27172,139 @@ var _visor = require("./Visor");
 var _visorDefault = parcelHelpers.interopDefault(_visor);
 var _s = $RefreshSig$();
 var valorVisor = "";
+var mvalue = 0;
+function calcularFatorial(numero) {
+    if (numero < 0) throw new Error("O n\xfamero n\xe3o pode ser negativo.");
+    let fatorial = 1;
+    for(let i = 2; i <= numero; i++)fatorial *= i;
+    return fatorial;
+}
+function equalsaux(valor) {
+    // Encontrar todos os operadores na expressão
+    const operadores = [
+        "+",
+        "-",
+        "*",
+        "/",
+        "r",
+        "%",
+        "(",
+        ")"
+    ];
+    const operadoresEncontrados = [];
+    // Encontrar as posições de todos os operadores
+    for (const operador of operadores){
+        let posicao = -1;
+        while((posicao = valor.indexOf(operador, posicao + 1)) !== -1)operadoresEncontrados.push({
+            operador,
+            posicao
+        });
+    }
+    // Verificar se operadores foram encontrados
+    if (operadoresEncontrados.length === 0) {
+        console.error("Nenhum operador encontrado na express\xe3o.");
+        return null;
+    }
+    // Ordenar os operadores por posição
+    operadoresEncontrados.sort((a, b)=>a.posicao - b.posicao);
+    // Dividir a expressão em partes usando os operadores
+    const partes = [];
+    let inicio = 0;
+    for (const operadorInfo of operadoresEncontrados){
+        const { operador, posicao } = operadorInfo;
+        partes.push(valor.slice(inicio, posicao));
+        partes.push(operador);
+        inicio = posicao + 1;
+    }
+    partes.push(valor.slice(inicio)); // Adicionar a última parte
+    // Realizar primeiro as operações de multiplicação e divisão
+    let i = 1;
+    let pResult = "";
+    while(i < partes.length){
+        console.log("partei:" + partes[i]);
+        console.log("parte0:" + partes[0]);
+        console.log("parte1:" + partes[1]);
+        if (partes[i] === "(") {
+            var auxi = 1 + i;
+            while(auxi < partes.length && partes[auxi] !== ")"){
+                pResult += partes[auxi];
+                auxi += 1;
+            }
+            partes.splice(i, auxi - i + 1, equalsaux(pResult) + "");
+            partes.splice(i + 1, 1);
+            i -= 1;
+        }
+        console.log(partes[i]);
+        console.log(partes[i + 1]);
+        console.log(partes[i + 2]);
+        console.log(partes[i + 3]);
+        if (partes[i] === "*" || partes[i] === "/" || partes[i] === "r" || partes[i] === "%") {
+            const operador = partes[i];
+            const numero1 = parseFloat(partes[i - 1]);
+            console.log(partes[i + 1]);
+            console.log(partes[i + 2]);
+            console.log(partes[i + 3]);
+            let numero2 = parseFloat(partes[i + 1]);
+            if (partes[i + 1] == "") partes.splice(i + 1, 1);
+            if (partes[i + 1] == "-") {
+                partes.splice(i + 1, 1);
+                numero2 = -1 * parseFloat(partes[i + 1]);
+                console.log("socorro:" + numero2);
+            }
+            if (partes[i + 1] == "+") {
+                partes.splice(i + 1, 1);
+                numero2 = 1 * parseFloat(partes[i + 1]);
+                console.log("socorro:" + numero2);
+            }
+            let resultadoOperacao;
+            if (operador === "%") {
+                if (numero2 === 0) resultadoOperacao = 0;
+                resultadoOperacao = numero1 * numero2 / 100;
+            }
+            if (operador === "r") resultadoOperacao = numero1 % numero2;
+            if (operador === "*") resultadoOperacao = numero1 * numero2;
+            if (operador === "/") {
+                if (numero2 === 0) {
+                    console.error("Divis\xe3o por zero n\xe3o \xe9 permitida.");
+                    return null;
+                }
+                resultadoOperacao = numero1 / numero2;
+            }
+            console.log("numero1:" + numero1);
+            console.log("numero2:" + numero2);
+            console.log(resultadoOperacao);
+            partes.splice(i - 1, 3, resultadoOperacao.toString()); // Substituir os números e o operador pela operação resultante
+        } else i += 2; // Avançar para o próximo operador
+    }
+    // Em seguida, realizar as operações de adição e subtração
+    i = 1;
+    let resultado = parseFloat(partes[0]);
+    if (partes[0] == "") {
+        if (partes[1] == "-") resultado = 0;
+        else if (partes[1] == "+") resultado = 0;
+        else {
+            resultado = parseFloat(partes[1]);
+            i -= 1;
+        }
+    }
+    console.log(partes.length);
+    while(i < partes.length){
+        const operador = partes[i];
+        const numero = parseFloat(partes[i + 1]);
+        console.log(numero);
+        switch(operador){
+            case "+":
+                resultado += numero;
+                break;
+            case "-":
+                resultado -= numero;
+                break;
+        }
+        i += 2; // Avançar para o próximo operador
+    }
+    console.log(resultado);
+    return resultado;
+}
 const CalculatorDailyUi = ()=>{
     _s();
     const [numeroVisor, setNumeroVisor] = (0, _react.useState)("");
@@ -27183,6 +27316,98 @@ const CalculatorDailyUi = ()=>{
     };
     const handleTextWrapperClick = (value)=>{
         console.log("Valor clicado:", value);
+        if (value == "ms") {
+            mvalue = parseFloat(valorVisor);
+            value = "";
+        }
+        if (value == "mc") {
+            mvalue = 0;
+            value = "";
+        }
+        if (value == "m+") {
+            if (equals() !== null) valorVisor = equals() + mvalue + "";
+            else valorVisor = parseFloat(valorVisor) + mvalue + "";
+            value = "";
+        }
+        if (value == "m-") {
+            if (equals() !== null) valorVisor = equals() - mvalue + "";
+            else valorVisor = parseFloat(valorVisor) - mvalue + "";
+            value = "";
+        }
+        if (value == "c") {
+            valorVisor = "";
+            value = "";
+        }
+        if (value == "!") {
+            if (equals() !== null) valorVisor = calcularFatorial(equals()) + "";
+            else valorVisor = calcularFatorial(parseFloat(valorVisor)) + "";
+            value = "";
+        }
+        if (value == "e") {
+            if (equals() !== null) valorVisor = Math.E * equals() + "";
+            else valorVisor = Math.E * parseFloat(valorVisor) + "";
+            value = "";
+        }
+        if (value == "pi") {
+            if (equals() !== null) valorVisor = Math.PI * equals() + "";
+            else valorVisor = Math.PI * parseFloat(valorVisor) + "";
+            value = "";
+        }
+        if (value == "tan") {
+            if (equals() !== null) valorVisor = Math.tan(equals()) + "";
+            else valorVisor = Math.tan(parseFloat(valorVisor)) + "";
+            value = "";
+        }
+        if (value == "cos") {
+            if (equals() !== null) valorVisor = Math.cos(equals()) + "";
+            else valorVisor = Math.cos(parseFloat(valorVisor)) + "";
+            value = "";
+        }
+        if (value == "sin") {
+            if (equals() !== null) valorVisor = Math.sin(equals()) + "";
+            else valorVisor = Math.sin(parseFloat(valorVisor)) + "";
+            value = "";
+        }
+        if (value == "1/") {
+            if (equals() !== null) valorVisor = 1 / equals() + "";
+            else valorVisor = 1 / parseFloat(valorVisor) + "";
+            value = "";
+        }
+        if (value == "log") {
+            if (equals() !== null) valorVisor = Math.log10(equals()) + "";
+            else valorVisor = Math.log10(parseFloat(valorVisor)) + "";
+            value = "";
+        }
+        if (value == "rad2") {
+            if (equals() !== null) valorVisor = Math.pow(equals(), 0.5) + "";
+            else valorVisor = Math.pow(parseFloat(valorVisor), 0.5) + "";
+            value = "";
+        }
+        if (value == "rad3") {
+            if (equals() !== null) valorVisor = Math.pow(equals(), 1 / 3) + "";
+            else valorVisor = Math.pow(parseFloat(valorVisor), 1 / 3) + "";
+            value = "";
+        }
+        if (value == "p10") {
+            if (equals() !== null) valorVisor = Math.pow(10, equals()) + "";
+            else valorVisor = Math.pow(10, parseFloat(valorVisor)) + "";
+            value = "";
+        }
+        if (value == "p2") {
+            if (equals() !== null) valorVisor = Math.pow(equals(), 2) + "";
+            else valorVisor = Math.pow(parseFloat(valorVisor), 2) + "";
+            value = "";
+        }
+        if (value == "p3") {
+            if (equals() !== null) valorVisor = Math.pow(equals(), 3) + "";
+            else valorVisor = Math.pow(parseFloat(valorVisor), 3) + "";
+            value = "";
+        }
+        if (value == "t") {
+            if (equals() !== null) valorVisor = -1 * equals() + "";
+            else valorVisor = -1 * parseFloat(valorVisor) + "";
+            value = "";
+        }
         if (value == "$") {
             valorVisor = valorVisor.substring(0, valorVisor.length - 1);
             value = "";
@@ -27197,13 +27422,17 @@ const CalculatorDailyUi = ()=>{
             "+",
             "-",
             "*",
-            "/"
+            "/",
+            "r",
+            "%",
+            "(",
+            ")"
         ];
         const operadoresEncontrados = [];
         // Encontrar as posições de todos os operadores
         for (const operador of operadores){
             let posicao = -1;
-            while((posicao = visorValue.indexOf(operador, posicao + 1)) !== -1)operadoresEncontrados.push({
+            while((posicao = valorVisor.indexOf(operador, posicao + 1)) !== -1)operadoresEncontrados.push({
                 operador,
                 posicao
             });
@@ -27220,38 +27449,86 @@ const CalculatorDailyUi = ()=>{
         let inicio = 0;
         for (const operadorInfo of operadoresEncontrados){
             const { operador, posicao } = operadorInfo;
-            partes.push(visorValue.slice(inicio, posicao));
+            partes.push(valorVisor.slice(inicio, posicao));
             partes.push(operador);
             inicio = posicao + 1;
         }
-        partes.push(visorValue.slice(inicio)); // Adicionar a última parte
+        partes.push(valorVisor.slice(inicio)); // Adicionar a última parte
         // Realizar primeiro as operações de multiplicação e divisão
         let i = 1;
+        let pResult = "";
         while(i < partes.length){
-            console.log("parte:" + partes[i]);
-            if (partes[i] === "*" || partes[i] === "/") {
+            console.log("partei:" + partes[i]);
+            console.log("parte0:" + partes[0]);
+            console.log("parte1:" + partes[1]);
+            if (partes[i] === "(") {
+                var auxi = 1 + i;
+                while(auxi < partes.length && partes[auxi] !== ")"){
+                    pResult += partes[auxi];
+                    auxi += 1;
+                }
+                partes.splice(i, auxi - i + 1, equalsaux(pResult) + "");
+                partes.splice(i + 1, 1);
+                i -= 1;
+            }
+            console.log(partes[i]);
+            console.log(partes[i + 1]);
+            console.log(partes[i + 2]);
+            console.log(partes[i + 3]);
+            if (partes[i] === "*" || partes[i] === "/" || partes[i] === "r" || partes[i] === "%") {
                 const operador = partes[i];
                 const numero1 = parseFloat(partes[i - 1]);
-                const numero2 = parseFloat(partes[i + 1]);
+                console.log(partes[i + 1]);
+                console.log(partes[i + 2]);
+                console.log(partes[i + 3]);
+                let numero2 = parseFloat(partes[i + 1]);
+                if (partes[i + 1] == "") partes.splice(i + 1, 1);
+                if (partes[i + 1] == "-") {
+                    partes.splice(i + 1, 1);
+                    numero2 = -1 * parseFloat(partes[i + 1]);
+                    console.log("socorro:" + numero2);
+                }
+                if (partes[i + 1] == "+") {
+                    partes.splice(i + 1, 1);
+                    numero2 = 1 * parseFloat(partes[i + 1]);
+                    console.log("socorro:" + numero2);
+                }
                 let resultadoOperacao;
+                if (operador === "%") {
+                    if (numero2 === 0) resultadoOperacao = 0;
+                    resultadoOperacao = numero1 * numero2 / 100;
+                }
+                if (operador === "r") resultadoOperacao = numero1 % numero2;
                 if (operador === "*") resultadoOperacao = numero1 * numero2;
-                else {
+                if (operador === "/") {
                     if (numero2 === 0) {
                         console.error("Divis\xe3o por zero n\xe3o \xe9 permitida.");
                         return null;
                     }
                     resultadoOperacao = numero1 / numero2;
                 }
+                console.log("numero1:" + numero1);
+                console.log("numero2:" + numero2);
                 console.log(resultadoOperacao);
                 partes.splice(i - 1, 3, resultadoOperacao.toString()); // Substituir os números e o operador pela operação resultante
             } else i += 2; // Avançar para o próximo operador
         }
         // Em seguida, realizar as operações de adição e subtração
-        let resultado = parseFloat(partes[0]);
         i = 1;
+        let resultado = parseFloat(partes[0]);
+        if (partes[0] == "") {
+            if (partes[1] == "-") resultado = 0;
+            else if (partes[1] == "+") resultado = 0;
+            else {
+                resultado = parseFloat(partes[1]);
+                i -= 1;
+            }
+        }
+        console.log(partes.length);
         while(i < partes.length){
             const operador = partes[i];
             const numero = parseFloat(partes[i + 1]);
+            console.log(numero);
             switch(operador){
                 case "+":
                     resultado += numero;
@@ -27262,10 +27539,29 @@ const CalculatorDailyUi = ()=>{
             }
             i += 2; // Avançar para o próximo operador
         }
-        valorVisor = resultado;
+        histAdd(valorVisor, resultado + "");
+        console.log(resultado);
+        var modifiedNumeroVisor;
+        modifiedNumeroVisor = valorVisor.replace(/\*/g, "x");
+        modifiedNumeroVisor = modifiedNumeroVisor.replace(/r/g, "rest");
+        document.getElementById("ultcalc").innerHTML = modifiedNumeroVisor;
+        histAdd(modifiedNumeroVisor, resultado + "");
+        valorVisor = resultado.toString();
         setNumeroVisor(resultado);
         return resultado;
     }
+    function histAdd(text, text2) {
+        const novoCalc = [
+            ...calculos,
+            {
+                id: Math.floor(Math.random() * 10000),
+                text,
+                text2
+            }
+        ];
+        setcalculos(novoCalc);
+    }
+    const [calculos, setcalculos] = (0, _react.useState)([]);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "calculator-daily-UI",
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27275,239 +27571,80 @@ const CalculatorDailyUi = ()=>{
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "historico",
-                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                            className: "historico-items",
-                            children: [
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                                    className: "close-h",
-                                    alt: "Close h",
-                                    src: "close-h.svg"
-                                }, void 0, false, {
-                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 133,
-                                    columnNumber: 15
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    className: "hist",
-                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        className: "overlap-group",
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                className: "text-wrapper",
-                                                children: "45 x 8 \xf7 2"
-                                            }, void 0, false, {
-                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 136,
-                                                columnNumber: 19
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                className: "element",
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        className: "span",
-                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "historico-items",
+                                children: calculos.map((calc)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "div2",
+                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                            className: "overlap-group",
+                                            children: [
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                    className: "p",
+                                                    children: calc.text
+                                                }, void 0, false, {
+                                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
+                                                    lineNumber: 484,
+                                                    columnNumber: 17
+                                                }, undefined),
+                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                                    className: "element",
+                                                    children: [
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                            className: "span",
+                                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
+                                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
+                                                                lineNumber: 487,
+                                                                columnNumber: 23
+                                                            }, undefined)
+                                                        }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 139,
-                                                            columnNumber: 23
-                                                        }, undefined)
-                                                    }, void 0, false, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 138,
-                                                        columnNumber: 21
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        className: "text-wrapper-2",
-                                                        children: "180"
-                                                    }, void 0, false, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 141,
-                                                        columnNumber: 21
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 137,
-                                                columnNumber: 19
-                                            }, undefined)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                        lineNumber: 135,
-                                        columnNumber: 17
-                                    }, undefined)
-                                }, void 0, false, {
-                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 134,
-                                    columnNumber: 15
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    className: "overlap-group-wrapper",
-                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        className: "overlap-group",
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                className: "text-wrapper",
-                                                children: "45 x 8 \xf7 2"
-                                            }, void 0, false, {
-                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 147,
-                                                columnNumber: 19
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                className: "element",
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        className: "span",
-                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
+                                                            lineNumber: 486,
+                                                            columnNumber: 21
+                                                        }, undefined),
+                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                                            className: "text-wrapper-2",
+                                                            children: calc.text2
+                                                        }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 150,
-                                                            columnNumber: 23
+                                                            lineNumber: 489,
+                                                            columnNumber: 21
                                                         }, undefined)
-                                                    }, void 0, false, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 149,
-                                                        columnNumber: 21
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        className: "text-wrapper-2",
-                                                        children: "180"
-                                                    }, void 0, false, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 152,
-                                                        columnNumber: 21
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 148,
-                                                columnNumber: 19
-                                            }, undefined)
-                                        ]
-                                    }, void 0, true, {
+                                                    ]
+                                                }, void 0, true, {
+                                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
+                                                    lineNumber: 485,
+                                                    columnNumber: 17
+                                                }, undefined)
+                                            ]
+                                        }, void 0, true, {
+                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
+                                            lineNumber: 483,
+                                            columnNumber: 17
+                                        }, undefined)
+                                    }, void 0, false, {
                                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                        lineNumber: 146,
-                                        columnNumber: 17
-                                    }, undefined)
-                                }, void 0, false, {
-                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 145,
-                                    columnNumber: 15
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    className: "div-wrapper",
-                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        className: "overlap-group",
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                className: "text-wrapper",
-                                                children: "45 x 8 \xf7 2"
-                                            }, void 0, false, {
-                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 158,
-                                                columnNumber: 19
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                className: "element",
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        className: "span",
-                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
-                                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 161,
-                                                            columnNumber: 23
-                                                        }, undefined)
-                                                    }, void 0, false, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 160,
-                                                        columnNumber: 21
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        className: "text-wrapper-2",
-                                                        children: "180"
-                                                    }, void 0, false, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 163,
-                                                        columnNumber: 21
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 159,
-                                                columnNumber: 19
-                                            }, undefined)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                        lineNumber: 157,
-                                        columnNumber: 17
-                                    }, undefined)
-                                }, void 0, false, {
-                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 156,
-                                    columnNumber: 15
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    className: "div",
-                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                        className: "overlap-group",
-                                        children: [
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                className: "p",
-                                                children: "45 x 8 \xf7 2"
-                                            }, void 0, false, {
-                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 169,
-                                                columnNumber: 19
-                                            }, undefined),
-                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                className: "element",
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        className: "span",
-                                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
-                                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 172,
-                                                            columnNumber: 23
-                                                        }, undefined)
-                                                    }, void 0, false, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 171,
-                                                        columnNumber: 21
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                        className: "text-wrapper-2",
-                                                        children: "180"
-                                                    }, void 0, false, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 174,
-                                                        columnNumber: 21
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 170,
-                                                columnNumber: 19
-                                            }, undefined)
-                                        ]
-                                    }, void 0, true, {
-                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                        lineNumber: 168,
-                                        columnNumber: 17
-                                    }, undefined)
-                                }, void 0, false, {
-                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 167,
-                                    columnNumber: 15
-                                }, undefined)
-                            ]
-                        }, void 0, true, {
-                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                            lineNumber: 132,
-                            columnNumber: 13
-                        }, undefined)
-                    }, void 0, false, {
+                                        lineNumber: 482,
+                                        columnNumber: 15
+                                    }, undefined))
+                            }, void 0, false, {
+                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
+                                lineNumber: 479,
+                                columnNumber: 13
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                className: "close-h",
+                                alt: "Close h",
+                                src: "close-h.svg"
+                            }, void 0, false, {
+                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
+                                lineNumber: 495,
+                                columnNumber: 13
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                        lineNumber: 131,
+                        lineNumber: 477,
                         columnNumber: 11
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27523,7 +27660,7 @@ const CalculatorDailyUi = ()=>{
                                             className: "solve-button"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 184,
+                                            lineNumber: 501,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27531,13 +27668,13 @@ const CalculatorDailyUi = ()=>{
                                             children: "="
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 185,
+                                            lineNumber: 502,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 183,
+                                    lineNumber: 500,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27549,7 +27686,7 @@ const CalculatorDailyUi = ()=>{
                                             src: "selected-rec.svg"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 188,
+                                            lineNumber: 505,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27561,7 +27698,7 @@ const CalculatorDailyUi = ()=>{
                                                     src: "historical-1.png"
                                                 }, void 0, false, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 190,
+                                                    lineNumber: 507,
                                                     columnNumber: 19
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27569,7 +27706,7 @@ const CalculatorDailyUi = ()=>{
                                                     children: "Scientific"
                                                 }, void 0, false, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 191,
+                                                    lineNumber: 508,
                                                     columnNumber: 19
                                                 }, undefined),
                                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
@@ -27580,7 +27717,7 @@ const CalculatorDailyUi = ()=>{
                                                             children: "Standard"
                                                         }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 193,
+                                                            lineNumber: 510,
                                                             columnNumber: 21
                                                         }, undefined),
                                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
@@ -27588,320 +27725,32 @@ const CalculatorDailyUi = ()=>{
                                                             children: "\xa0"
                                                         }, void 0, false, {
                                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 194,
+                                                            lineNumber: 511,
                                                             columnNumber: 21
                                                         }, undefined)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 192,
+                                                    lineNumber: 509,
                                                     columnNumber: 19
                                                 }, undefined)
                                             ]
                                         }, void 0, true, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 189,
+                                            lineNumber: 506,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 187,
+                                    lineNumber: 504,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _visorDefault.default), {
                                     numeroVisor: numeroVisor
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 198,
-                                    columnNumber: 15
-                                }, undefined),
-                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                    className: "overlap-4",
-                                    children: [
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            className: "overlap-5",
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    className: "overlap-6",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                                                            className: "plus-minus",
-                                                            alt: "Plus minus",
-                                                            src: "plus-minus-2.png"
-                                                        }, void 0, false, {
-                                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 203,
-                                                            columnNumber: 21
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                            className: "log",
-                                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                className: "overlap-7",
-                                                                children: [
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                        className: "text-wrapper-21",
-                                                                        children: "10"
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                        lineNumber: 206,
-                                                                        columnNumber: 25
-                                                                    }, undefined),
-                                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                                        className: "text-wrapper-22",
-                                                                        children: "log"
-                                                                    }, void 0, false, {
-                                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                        lineNumber: 207,
-                                                                        columnNumber: 25
-                                                                    }, undefined)
-                                                                ]
-                                                            }, void 0, true, {
-                                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 205,
-                                                                columnNumber: 23
-                                                            }, undefined)
-                                                        }, void 0, false, {
-                                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 204,
-                                                            columnNumber: 21
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 202,
-                                                    columnNumber: 19
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    className: "text-wrapper-23",
-                                                    children: "x\xb2"
-                                                }, void 0, false, {
-                                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 211,
-                                                    columnNumber: 19
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    className: "raizx",
-                                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                        className: "x",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                className: "text-wrapper-24",
-                                                                children: "√"
-                                                            }, void 0, false, {
-                                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 214,
-                                                                columnNumber: 23
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                className: "text-wrapper-25",
-                                                                children: "x"
-                                                            }, void 0, false, {
-                                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 215,
-                                                                columnNumber: 23
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 213,
-                                                        columnNumber: 21
-                                                    }, undefined)
-                                                }, void 0, false, {
-                                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 212,
-                                                    columnNumber: 19
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    className: "me-MC",
-                                                    children: [
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                            className: "text-wrapper-26",
-                                                            children: "tg"
-                                                        }, void 0, false, {
-                                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 219,
-                                                            columnNumber: 21
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                            className: "text-wrapper-26",
-                                                            children: "cos"
-                                                        }, void 0, false, {
-                                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 220,
-                                                            columnNumber: 21
-                                                        }, undefined),
-                                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                            className: "text-wrapper-26",
-                                                            children: "sen"
-                                                        }, void 0, false, {
-                                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                            lineNumber: 221,
-                                                            columnNumber: 21
-                                                        }, undefined)
-                                                    ]
-                                                }, void 0, true, {
-                                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 218,
-                                                    columnNumber: 19
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 201,
-                                            columnNumber: 17
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            className: "nraizx",
-                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                className: "overlap-8",
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        className: "text-wrapper-27",
-                                                        children: "n"
-                                                    }, void 0, false, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 226,
-                                                        columnNumber: 21
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                        className: "x-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                className: "text-wrapper-24",
-                                                                children: "√"
-                                                            }, void 0, false, {
-                                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 228,
-                                                                columnNumber: 23
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                className: "text-wrapper-25",
-                                                                children: "x"
-                                                            }, void 0, false, {
-                                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 229,
-                                                                columnNumber: 23
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 227,
-                                                        columnNumber: 21
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 225,
-                                                columnNumber: 19
-                                            }, undefined)
-                                        }, void 0, false, {
-                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 224,
-                                            columnNumber: 17
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            className: "element-raizx",
-                                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                className: "overlap-8",
-                                                children: [
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                                                        className: "x-2",
-                                                        children: [
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                className: "text-wrapper-24",
-                                                                children: "√"
-                                                            }, void 0, false, {
-                                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 236,
-                                                                columnNumber: 23
-                                                            }, undefined),
-                                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                                                className: "text-wrapper-25",
-                                                                children: "x"
-                                                            }, void 0, false, {
-                                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                                lineNumber: 237,
-                                                                columnNumber: 23
-                                                            }, undefined)
-                                                        ]
-                                                    }, void 0, true, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 235,
-                                                        columnNumber: 21
-                                                    }, undefined),
-                                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                        className: "text-wrapper-27-2",
-                                                        children: "3"
-                                                    }, void 0, false, {
-                                                        fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                        lineNumber: 239,
-                                                        columnNumber: 21
-                                                    }, undefined)
-                                                ]
-                                            }, void 0, true, {
-                                                fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                lineNumber: 234,
-                                                columnNumber: 19
-                                            }, undefined)
-                                        }, void 0, false, {
-                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 233,
-                                            columnNumber: 17
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            className: "text-wrapper-28",
-                                            children: "x\xb3"
-                                        }, void 0, false, {
-                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 242,
-                                            columnNumber: 17
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            className: "text-wrapper-29",
-                                            children: "π"
-                                        }, void 0, false, {
-                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 243,
-                                            columnNumber: 17
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            className: "text-wrapper-30",
-                                            children: "e"
-                                        }, void 0, false, {
-                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 244,
-                                            columnNumber: 17
-                                        }, undefined),
-                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                            className: "xpotencn",
-                                            children: [
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    className: "text-wrapper-31",
-                                                    children: "x"
-                                                }, void 0, false, {
-                                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 246,
-                                                    columnNumber: 19
-                                                }, undefined),
-                                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                                                    className: "text-wrapper-32",
-                                                    children: "n"
-                                                }, void 0, false, {
-                                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                                    lineNumber: 247,
-                                                    columnNumber: 19
-                                                }, undefined)
-                                            ]
-                                        }, void 0, true, {
-                                            fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 245,
-                                            columnNumber: 17
-                                        }, undefined)
-                                    ]
-                                }, void 0, true, {
-                                    fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 200,
+                                    lineNumber: 516,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27909,7 +27758,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "x!"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 251,
+                                    lineNumber: 520,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27920,7 +27769,7 @@ const CalculatorDailyUi = ()=>{
                                             children: "10"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 253,
+                                            lineNumber: 522,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27928,13 +27777,13 @@ const CalculatorDailyUi = ()=>{
                                             children: "X"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 254,
+                                            lineNumber: 523,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 252,
+                                    lineNumber: 521,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27945,7 +27794,7 @@ const CalculatorDailyUi = ()=>{
                                             children: "MS"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 257,
+                                            lineNumber: 526,
                                             columnNumber: 17
                                         }, undefined),
                                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27953,13 +27802,13 @@ const CalculatorDailyUi = ()=>{
                                             children: "M+"
                                         }, void 0, false, {
                                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                            lineNumber: 258,
+                                            lineNumber: 527,
                                             columnNumber: 17
                                         }, undefined)
                                     ]
                                 }, void 0, true, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 256,
+                                    lineNumber: 525,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27967,7 +27816,7 @@ const CalculatorDailyUi = ()=>{
                                     children: "MC"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 260,
+                                    lineNumber: 529,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27975,45 +27824,45 @@ const CalculatorDailyUi = ()=>{
                                     children: "M-"
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 261,
+                                    lineNumber: 530,
                                     columnNumber: 15
                                 }, undefined),
                                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _numericosDefault.default), {
                                     onTextWrapperClick: handleTextWrapperClick
                                 }, void 0, false, {
                                     fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                                    lineNumber: 262,
+                                    lineNumber: 531,
                                     columnNumber: 15
                                 }, undefined)
                             ]
                         }, void 0, true, {
                             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                            lineNumber: 181,
+                            lineNumber: 498,
                             columnNumber: 13
                         }, undefined)
                     }, void 0, false, {
                         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                        lineNumber: 180,
+                        lineNumber: 497,
                         columnNumber: 11
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-                lineNumber: 130,
+                lineNumber: 476,
                 columnNumber: 9
             }, undefined)
         }, void 0, false, {
             fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-            lineNumber: 129,
+            lineNumber: 475,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/screens/CalculatorDailyUi/CalculatorDailyUi.tsx",
-        lineNumber: 128,
+        lineNumber: 474,
         columnNumber: 5
     }, undefined);
 };
-_s(CalculatorDailyUi, "/ohWl1KMJW+JoQCLNux60mFkcQc=");
+_s(CalculatorDailyUi, "I17LSa7eJVBYyY6gvnaHWj/OdFc=");
 _c = CalculatorDailyUi;
 var _c;
 $RefreshReg$(_c, "CalculatorDailyUi");
@@ -28023,7 +27872,663 @@ $RefreshReg$(_c, "CalculatorDailyUi");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./style.css":"9Mey7","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","./Numericos":"lIlV9","./Visor":"itPby"}],"9Mey7":[function() {},{}],"gkKU3":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","./style.css":"9Mey7","./Numericos":"lIlV9","./Visor":"itPby","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","prop-types":"7wKI2"}],"9Mey7":[function() {},{}],"lIlV9":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$f34f = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+var prevRefreshReg = window.$RefreshReg$;
+var prevRefreshSig = window.$RefreshSig$;
+$parcel$ReactRefreshHelpers$f34f.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _s = $RefreshSig$();
+const Numericos = ({ onTextWrapperClick })=>{
+    _s();
+    const handleTextWrapperClick = (value)=>{
+        if (onTextWrapperClick) onTextWrapperClick(value);
+    };
+    (0, _react.useEffect)(()=>{
+        const handleKeyPress = (event)=>{
+            const keyToValueMap = {
+                "Digit7": 7,
+                "Digit8": 8,
+                "Digit9": 9,
+                "Digit4": 4,
+                "Digit5": 5,
+                "Digit6": 6,
+                "Digit1": 1,
+                "Digit0": 0,
+                "Digit2": 2,
+                "Digit3": 3,
+                "Period": ".",
+                "NumpadAdd": "+",
+                "Equal": "+",
+                "NumpadSubtract": "-",
+                "Minus": "-",
+                "NumpadDivide": "/",
+                "Slash": "/",
+                "Backspace": "$"
+            };
+            const value = keyToValueMap[event.code];
+            if (value !== undefined) handleTextWrapperClick(value);
+        };
+        window.addEventListener("keydown", handleKeyPress);
+        return ()=>{
+            window.removeEventListener("keydown", handleKeyPress);
+        };
+    }, [
+        handleTextWrapperClick
+    ]);
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "overlap-4",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "overlap-5",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "overlap-6",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "log",
+                                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "overlap-7",
+                                        onClick: ()=>handleTextWrapperClick("log"),
+                                        children: [
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "text-wrapper-21",
+                                                children: "10"
+                                            }, void 0, false, {
+                                                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                                lineNumber: 57,
+                                                columnNumber: 25
+                                            }, undefined),
+                                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                                className: "text-wrapper-22",
+                                                children: "log"
+                                            }, void 0, false, {
+                                                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                                lineNumber: 58,
+                                                columnNumber: 25
+                                            }, undefined)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                        lineNumber: 56,
+                                        columnNumber: 23
+                                    }, undefined)
+                                }, void 0, false, {
+                                    fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                    lineNumber: 55,
+                                    columnNumber: 21
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                lineNumber: 54,
+                                columnNumber: 19
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "text-wrapper-23",
+                                onClick: ()=>handleTextWrapperClick("p2"),
+                                children: "x\xb2"
+                            }, void 0, false, {
+                                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                lineNumber: 62,
+                                columnNumber: 19
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "raizx",
+                                children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                    className: "x",
+                                    onClick: ()=>handleTextWrapperClick("rad2"),
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                            className: "text-wrapper-24",
+                                            children: "√"
+                                        }, void 0, false, {
+                                            fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                            lineNumber: 65,
+                                            columnNumber: 23
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                            className: "text-wrapper-25",
+                                            children: "x"
+                                        }, void 0, false, {
+                                            fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                            lineNumber: 66,
+                                            columnNumber: 23
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                    lineNumber: 64,
+                                    columnNumber: 21
+                                }, undefined)
+                            }, void 0, false, {
+                                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                lineNumber: 63,
+                                columnNumber: 19
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "me-MC",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "text-wrapper-26",
+                                        onClick: ()=>handleTextWrapperClick("tan"),
+                                        children: "tg"
+                                    }, void 0, false, {
+                                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                        lineNumber: 70,
+                                        columnNumber: 21
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "text-wrapper-26",
+                                        onClick: ()=>handleTextWrapperClick("cos"),
+                                        children: "cos"
+                                    }, void 0, false, {
+                                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                        lineNumber: 71,
+                                        columnNumber: 21
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "text-wrapper-26",
+                                        onClick: ()=>handleTextWrapperClick("sin"),
+                                        children: "sen"
+                                    }, void 0, false, {
+                                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                        lineNumber: 72,
+                                        columnNumber: 21
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                lineNumber: 69,
+                                columnNumber: 19
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 53,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "nraizx",
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "overlap-8",
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "text-wrapper-27",
+                                    children: "n"
+                                }, void 0, false, {
+                                    fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                    lineNumber: 77,
+                                    columnNumber: 21
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                    className: "x-2",
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                            className: "text-wrapper-24",
+                                            children: "√"
+                                        }, void 0, false, {
+                                            fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                            lineNumber: 79,
+                                            columnNumber: 23
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                            className: "text-wrapper-25",
+                                            children: "x"
+                                        }, void 0, false, {
+                                            fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                            lineNumber: 80,
+                                            columnNumber: 23
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                    lineNumber: 78,
+                                    columnNumber: 21
+                                }, undefined)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                            lineNumber: 76,
+                            columnNumber: 19
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 75,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "element-raizx",
+                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                            className: "overlap-8",
+                            children: [
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                    className: "x-2",
+                                    onClick: ()=>handleTextWrapperClick("rad3"),
+                                    children: [
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                            className: "text-wrapper-24",
+                                            children: "√"
+                                        }, void 0, false, {
+                                            fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                            lineNumber: 87,
+                                            columnNumber: 23
+                                        }, undefined),
+                                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
+                                            className: "text-wrapper-25",
+                                            children: "x"
+                                        }, void 0, false, {
+                                            fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                            lineNumber: 88,
+                                            columnNumber: 23
+                                        }, undefined)
+                                    ]
+                                }, void 0, true, {
+                                    fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                    lineNumber: 86,
+                                    columnNumber: 21
+                                }, undefined),
+                                /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                    className: "text-wrapper-27",
+                                    children: "3"
+                                }, void 0, false, {
+                                    fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                    lineNumber: 90,
+                                    columnNumber: 21
+                                }, undefined)
+                            ]
+                        }, void 0, true, {
+                            fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                            lineNumber: 85,
+                            columnNumber: 19
+                        }, undefined)
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 84,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-28",
+                        onClick: ()=>handleTextWrapperClick("p3"),
+                        children: "x\xb3"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 93,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-29",
+                        onClick: ()=>handleTextWrapperClick("pi"),
+                        children: "π"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 94,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-30",
+                        onClick: ()=>handleTextWrapperClick("e"),
+                        children: "e"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 95,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "xpotencn",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "text-wrapper-31",
+                                children: "x"
+                            }, void 0, false, {
+                                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                lineNumber: 97,
+                                columnNumber: 19
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "text-wrapper-32",
+                                children: "n"
+                            }, void 0, false, {
+                                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                                lineNumber: 98,
+                                columnNumber: 19
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 96,
+                        columnNumber: 17
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 52,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-42",
+                onClick: ()=>handleTextWrapperClick("!"),
+                children: "x!"
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 101,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "element-pontecx",
+                onClick: ()=>handleTextWrapperClick("p10"),
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-43",
+                        children: "10"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 103,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-32",
+                        children: "X"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 104,
+                        columnNumber: 17
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 102,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "me-MS",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-26",
+                        onClick: ()=>handleTextWrapperClick("ms"),
+                        children: "MS"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 107,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-26",
+                        onClick: ()=>handleTextWrapperClick("m+"),
+                        children: "M+"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 108,
+                        columnNumber: 17
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 106,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-44",
+                onClick: ()=>handleTextWrapperClick("mc"),
+                children: "MC"
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 110,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-45",
+                onClick: ()=>handleTextWrapperClick("m-"),
+                children: "M-"
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 111,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-33",
+                onClick: ()=>handleTextWrapperClick("r"),
+                children: "rest"
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 112,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-34",
+                onClick: ()=>handleTextWrapperClick("1/"),
+                children: "1/X "
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 113,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-35",
+                onClick: ()=>handleTextWrapperClick("c"),
+                children: "C"
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 114,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-36",
+                onClick: ()=>handleTextWrapperClick("%"),
+                children: "%"
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 115,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-37",
+                onClick: ()=>handleTextWrapperClick("+"),
+                children: "+"
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 116,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-38",
+                onClick: ()=>handleTextWrapperClick("-"),
+                children: "-"
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 117,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-39",
+                onClick: ()=>handleTextWrapperClick("/"),
+                children: "\xf7"
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 118,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                className: "vezes",
+                alt: "Vezes",
+                src: "vezes.svg",
+                onClick: ()=>handleTextWrapperClick("*")
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 119,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                className: "delete",
+                alt: "Delete",
+                src: "delete-2.png",
+                onClick: ()=>handleTextWrapperClick("$")
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 120,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-40",
+                onClick: ()=>handleTextWrapperClick("("),
+                children: "("
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 121,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-wrapper-41",
+                onClick: ()=>handleTextWrapperClick(")"),
+                children: ")"
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 122,
+                columnNumber: 15
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "numericals",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-10",
+                        onClick: ()=>handleTextWrapperClick(7),
+                        children: "7"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 124,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-17",
+                        onClick: ()=>handleTextWrapperClick(8),
+                        children: "8"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 125,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-20",
+                        onClick: ()=>handleTextWrapperClick(9),
+                        children: "9"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 126,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-19",
+                        onClick: ()=>handleTextWrapperClick(4),
+                        children: "4"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 127,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-18",
+                        onClick: ()=>handleTextWrapperClick(5),
+                        children: "5"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 128,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-16",
+                        onClick: ()=>handleTextWrapperClick(6),
+                        children: "6"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 129,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-15",
+                        onClick: ()=>handleTextWrapperClick(1),
+                        children: "1"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 130,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-11",
+                        onClick: ()=>handleTextWrapperClick(0),
+                        children: "0"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 131,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-14",
+                        onClick: ()=>handleTextWrapperClick(2),
+                        children: "2"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 132,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-13",
+                        onClick: ()=>handleTextWrapperClick(3),
+                        children: "3"
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 133,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-wrapper-12",
+                        onClick: ()=>handleTextWrapperClick("."),
+                        children: "."
+                    }, void 0, false, {
+                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                        lineNumber: 134,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 123,
+                columnNumber: 7
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                className: "plus-minus",
+                alt: "Plus minus",
+                src: "plus-minus-2.png",
+                onClick: ()=>handleTextWrapperClick("t")
+            }, void 0, false, {
+                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+                lineNumber: 137,
+                columnNumber: 7
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
+        lineNumber: 51,
+        columnNumber: 5
+    }, undefined);
+};
+_s(Numericos, "OD7bBpZva5O2jO+Puf00hKivP7c=");
+_c = Numericos;
+exports.default = Numericos;
+var _c;
+$RefreshReg$(_c, "Numericos");
+
+  $parcel$ReactRefreshHelpers$f34f.postlude(module);
+} finally {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -28655,280 +29160,7 @@ module.exports = require("9e039173d01172ab");
     exports.setSignature = setSignature;
 })();
 
-},{}],"lIlV9":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$f34f = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$f34f.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-var _react = require("react");
-var _reactDefault = parcelHelpers.interopDefault(_react);
-var _s = $RefreshSig$();
-const Numericos = ({ onTextWrapperClick })=>{
-    _s();
-    const handleTextWrapperClick = (value)=>{
-        if (onTextWrapperClick) onTextWrapperClick(value);
-    };
-    (0, _react.useEffect)(()=>{
-        const handleKeyPress = (event)=>{
-            const keyToValueMap = {
-                "Digit7": 7,
-                "Digit8": 8,
-                "Digit9": 9,
-                "Digit4": 4,
-                "Digit5": 5,
-                "Digit6": 6,
-                "Digit1": 1,
-                "Digit0": 0,
-                "Digit2": 2,
-                "Digit3": 3,
-                "Period": ".",
-                "NumpadAdd": "+",
-                "Equal": "+",
-                "NumpadSubtract": "-",
-                "Minus": "-",
-                "NumpadDivide": "/",
-                "Slash": "/",
-                "Backspace": "$"
-            };
-            const value = keyToValueMap[event.code];
-            if (value !== undefined) handleTextWrapperClick(value);
-        };
-        window.addEventListener("keydown", handleKeyPress);
-        return ()=>{
-            window.removeEventListener("keydown", handleKeyPress);
-        };
-    }, [
-        handleTextWrapperClick
-    ]);
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "text-wrapper-33",
-                children: "rest"
-            }, void 0, false, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 52,
-                columnNumber: 7
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "text-wrapper-34",
-                children: "1/X"
-            }, void 0, false, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 53,
-                columnNumber: 15
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "text-wrapper-35",
-                children: "C"
-            }, void 0, false, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 54,
-                columnNumber: 15
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "text-wrapper-36",
-                children: "%"
-            }, void 0, false, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 55,
-                columnNumber: 15
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "text-wrapper-37",
-                onClick: ()=>handleTextWrapperClick("+"),
-                children: "+"
-            }, void 0, false, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 56,
-                columnNumber: 15
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "text-wrapper-38",
-                onClick: ()=>handleTextWrapperClick("-"),
-                children: "-"
-            }, void 0, false, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 57,
-                columnNumber: 15
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "text-wrapper-39",
-                onClick: ()=>handleTextWrapperClick("/"),
-                children: "\xf7"
-            }, void 0, false, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 58,
-                columnNumber: 15
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                className: "vezes",
-                alt: "Vezes",
-                src: "vezes.svg",
-                onClick: ()=>handleTextWrapperClick("*")
-            }, void 0, false, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 59,
-                columnNumber: 15
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                className: "delete",
-                alt: "Delete",
-                src: "delete-2.png",
-                onClick: ()=>handleTextWrapperClick("$")
-            }, void 0, false, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 60,
-                columnNumber: 15
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "text-wrapper-40",
-                children: "("
-            }, void 0, false, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 61,
-                columnNumber: 15
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "text-wrapper-41",
-                children: ")"
-            }, void 0, false, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 62,
-                columnNumber: 15
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "numericals",
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "text-wrapper-10",
-                        onClick: ()=>handleTextWrapperClick(7),
-                        children: "7"
-                    }, void 0, false, {
-                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                        lineNumber: 64,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "text-wrapper-17",
-                        onClick: ()=>handleTextWrapperClick(8),
-                        children: "8"
-                    }, void 0, false, {
-                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                        lineNumber: 65,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "text-wrapper-20",
-                        onClick: ()=>handleTextWrapperClick(9),
-                        children: "9"
-                    }, void 0, false, {
-                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                        lineNumber: 66,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "text-wrapper-19",
-                        onClick: ()=>handleTextWrapperClick(4),
-                        children: "4"
-                    }, void 0, false, {
-                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                        lineNumber: 67,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "text-wrapper-18",
-                        onClick: ()=>handleTextWrapperClick(5),
-                        children: "5"
-                    }, void 0, false, {
-                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                        lineNumber: 68,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "text-wrapper-16",
-                        onClick: ()=>handleTextWrapperClick(6),
-                        children: "6"
-                    }, void 0, false, {
-                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                        lineNumber: 69,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "text-wrapper-15",
-                        onClick: ()=>handleTextWrapperClick(1),
-                        children: "1"
-                    }, void 0, false, {
-                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                        lineNumber: 70,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "text-wrapper-11",
-                        onClick: ()=>handleTextWrapperClick(0),
-                        children: "0"
-                    }, void 0, false, {
-                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                        lineNumber: 71,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "text-wrapper-14",
-                        onClick: ()=>handleTextWrapperClick(2),
-                        children: "2"
-                    }, void 0, false, {
-                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                        lineNumber: 72,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "text-wrapper-13",
-                        onClick: ()=>handleTextWrapperClick(3),
-                        children: "3"
-                    }, void 0, false, {
-                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                        lineNumber: 73,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "text-wrapper-12",
-                        onClick: ()=>handleTextWrapperClick("."),
-                        children: "."
-                    }, void 0, false, {
-                        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                        lineNumber: 74,
-                        columnNumber: 9
-                    }, undefined)
-                ]
-            }, void 0, true, {
-                fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-                lineNumber: 63,
-                columnNumber: 7
-            }, undefined)
-        ]
-    }, void 0, true, {
-        fileName: "src/screens/CalculatorDailyUi/Numericos.tsx",
-        lineNumber: 51,
-        columnNumber: 5
-    }, undefined);
-};
-_s(Numericos, "OD7bBpZva5O2jO+Puf00hKivP7c=");
-_c = Numericos;
-exports.default = Numericos;
-var _c;
-$RefreshReg$(_c, "Numericos");
-
-  $parcel$ReactRefreshHelpers$f34f.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"itPby":[function(require,module,exports) {
+},{}],"itPby":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$9f1b = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -28941,11 +29173,17 @@ var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _s = $RefreshSig$();
-const inputValue = "";
 const Visor = ({ numeroVisor })=>{
     _s();
+    let modifiedNumeroVisor = numeroVisor;
+    if (typeof numeroVisor === "string") {
+        modifiedNumeroVisor = numeroVisor.replace(/\*/g, "x");
+        numeroVisor = modifiedNumeroVisor;
+        modifiedNumeroVisor = numeroVisor.replace(/r/g, "rest");
+        numeroVisor = modifiedNumeroVisor;
+        console.log(modifiedNumeroVisor);
+    }
     const ajuste = ()=>{
-        numeroVisor = numeroVisor.replace("*", "x");
         console.log(numeroVisor);
         const dynamicText = document.getElementById("vis");
         const tamanhoMaximo = 60;
@@ -28955,8 +29193,7 @@ const Visor = ({ numeroVisor })=>{
     (0, _react.useEffect)(()=>{
         ajuste();
     }, [
-        numeroVisor,
-        inputValue
+        numeroVisor
     ]);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "answer-box",
@@ -28964,11 +29201,12 @@ const Visor = ({ numeroVisor })=>{
             className: "overlap-group-2",
             children: [
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
-                    className: "text-wrapper-7"
+                    className: "text-wrapper-7",
+                    id: "ultcalc"
                 }, void 0, false, {
                     fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-                    lineNumber: 28,
-                    columnNumber: 9
+                    lineNumber: 36,
+                    columnNumber: 7
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
                     className: "element-2",
@@ -28977,12 +29215,12 @@ const Visor = ({ numeroVisor })=>{
                             className: "text-wrapper-8",
                             children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("br", {}, void 0, false, {
                                 fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-                                lineNumber: 31,
+                                lineNumber: 39,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-                            lineNumber: 30,
+                            lineNumber: 38,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
@@ -28992,24 +29230,24 @@ const Visor = ({ numeroVisor })=>{
                             value: numeroVisor
                         }, void 0, false, {
                             fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-                            lineNumber: 33,
+                            lineNumber: 41,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-                    lineNumber: 29,
+                    lineNumber: 37,
                     columnNumber: 9
                 }, undefined)
             ]
         }, void 0, true, {
             fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-            lineNumber: 27,
+            lineNumber: 35,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/screens/CalculatorDailyUi/Visor.tsx",
-        lineNumber: 26,
+        lineNumber: 34,
         columnNumber: 5
     }, undefined);
 };
@@ -29024,6 +29262,753 @@ $RefreshReg$(_c, "Visor");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}]},["dm2Ou","1xC6H","4aBH6"], "4aBH6", "parcelRequireb8e7")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"7wKI2":[function(require,module,exports) {
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */ var ReactIs = require("96e34ae03f5a2631");
+// By explicitly using `prop-types` you are opting into new development behavior.
+// http://fb.me/prop-types-in-prod
+var throwOnDirectAccess = true;
+module.exports = require("cb216452e2171041")(ReactIs.isElement, throwOnDirectAccess);
+
+},{"96e34ae03f5a2631":"gfIo3","cb216452e2171041":"bBUgD"}],"gfIo3":[function(require,module,exports) {
+"use strict";
+module.exports = require("ad47820528c6facb");
+
+},{"ad47820528c6facb":"7GE9i"}],"7GE9i":[function(require,module,exports) {
+/** @license React v16.13.1
+ * react-is.development.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */ "use strict";
+(function() {
+    "use strict";
+    // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
+    // nor polyfill, then a plain number is used for performance.
+    var hasSymbol = typeof Symbol === "function" && Symbol.for;
+    var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for("react.element") : 0xeac7;
+    var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for("react.portal") : 0xeaca;
+    var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for("react.fragment") : 0xeacb;
+    var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for("react.strict_mode") : 0xeacc;
+    var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for("react.profiler") : 0xead2;
+    var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for("react.provider") : 0xeacd;
+    var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for("react.context") : 0xeace; // TODO: We don't use AsyncMode or ConcurrentMode anymore. They were temporary
+    // (unstable) APIs that have been removed. Can we remove the symbols?
+    var REACT_ASYNC_MODE_TYPE = hasSymbol ? Symbol.for("react.async_mode") : 0xeacf;
+    var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for("react.concurrent_mode") : 0xeacf;
+    var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for("react.forward_ref") : 0xead0;
+    var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for("react.suspense") : 0xead1;
+    var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for("react.suspense_list") : 0xead8;
+    var REACT_MEMO_TYPE = hasSymbol ? Symbol.for("react.memo") : 0xead3;
+    var REACT_LAZY_TYPE = hasSymbol ? Symbol.for("react.lazy") : 0xead4;
+    var REACT_BLOCK_TYPE = hasSymbol ? Symbol.for("react.block") : 0xead9;
+    var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for("react.fundamental") : 0xead5;
+    var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for("react.responder") : 0xead6;
+    var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for("react.scope") : 0xead7;
+    function isValidElementType(type) {
+        return typeof type === "string" || typeof type === "function" || // Note: its typeof might be other than 'symbol' or 'number' if it's a polyfill.
+        type === REACT_FRAGMENT_TYPE || type === REACT_CONCURRENT_MODE_TYPE || type === REACT_PROFILER_TYPE || type === REACT_STRICT_MODE_TYPE || type === REACT_SUSPENSE_TYPE || type === REACT_SUSPENSE_LIST_TYPE || typeof type === "object" && type !== null && (type.$$typeof === REACT_LAZY_TYPE || type.$$typeof === REACT_MEMO_TYPE || type.$$typeof === REACT_PROVIDER_TYPE || type.$$typeof === REACT_CONTEXT_TYPE || type.$$typeof === REACT_FORWARD_REF_TYPE || type.$$typeof === REACT_FUNDAMENTAL_TYPE || type.$$typeof === REACT_RESPONDER_TYPE || type.$$typeof === REACT_SCOPE_TYPE || type.$$typeof === REACT_BLOCK_TYPE);
+    }
+    function typeOf(object) {
+        if (typeof object === "object" && object !== null) {
+            var $$typeof = object.$$typeof;
+            switch($$typeof){
+                case REACT_ELEMENT_TYPE:
+                    var type = object.type;
+                    switch(type){
+                        case REACT_ASYNC_MODE_TYPE:
+                        case REACT_CONCURRENT_MODE_TYPE:
+                        case REACT_FRAGMENT_TYPE:
+                        case REACT_PROFILER_TYPE:
+                        case REACT_STRICT_MODE_TYPE:
+                        case REACT_SUSPENSE_TYPE:
+                            return type;
+                        default:
+                            var $$typeofType = type && type.$$typeof;
+                            switch($$typeofType){
+                                case REACT_CONTEXT_TYPE:
+                                case REACT_FORWARD_REF_TYPE:
+                                case REACT_LAZY_TYPE:
+                                case REACT_MEMO_TYPE:
+                                case REACT_PROVIDER_TYPE:
+                                    return $$typeofType;
+                                default:
+                                    return $$typeof;
+                            }
+                    }
+                case REACT_PORTAL_TYPE:
+                    return $$typeof;
+            }
+        }
+        return undefined;
+    } // AsyncMode is deprecated along with isAsyncMode
+    var AsyncMode = REACT_ASYNC_MODE_TYPE;
+    var ConcurrentMode = REACT_CONCURRENT_MODE_TYPE;
+    var ContextConsumer = REACT_CONTEXT_TYPE;
+    var ContextProvider = REACT_PROVIDER_TYPE;
+    var Element = REACT_ELEMENT_TYPE;
+    var ForwardRef = REACT_FORWARD_REF_TYPE;
+    var Fragment = REACT_FRAGMENT_TYPE;
+    var Lazy = REACT_LAZY_TYPE;
+    var Memo = REACT_MEMO_TYPE;
+    var Portal = REACT_PORTAL_TYPE;
+    var Profiler = REACT_PROFILER_TYPE;
+    var StrictMode = REACT_STRICT_MODE_TYPE;
+    var Suspense = REACT_SUSPENSE_TYPE;
+    var hasWarnedAboutDeprecatedIsAsyncMode = false; // AsyncMode should be deprecated
+    function isAsyncMode(object) {
+        if (!hasWarnedAboutDeprecatedIsAsyncMode) {
+            hasWarnedAboutDeprecatedIsAsyncMode = true; // Using console['warn'] to evade Babel and ESLint
+            console["warn"]("The ReactIs.isAsyncMode() alias has been deprecated, and will be removed in React 17+. Update your code to use ReactIs.isConcurrentMode() instead. It has the exact same API.");
+        }
+        return isConcurrentMode(object) || typeOf(object) === REACT_ASYNC_MODE_TYPE;
+    }
+    function isConcurrentMode(object) {
+        return typeOf(object) === REACT_CONCURRENT_MODE_TYPE;
+    }
+    function isContextConsumer(object) {
+        return typeOf(object) === REACT_CONTEXT_TYPE;
+    }
+    function isContextProvider(object) {
+        return typeOf(object) === REACT_PROVIDER_TYPE;
+    }
+    function isElement(object) {
+        return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
+    }
+    function isForwardRef(object) {
+        return typeOf(object) === REACT_FORWARD_REF_TYPE;
+    }
+    function isFragment(object) {
+        return typeOf(object) === REACT_FRAGMENT_TYPE;
+    }
+    function isLazy(object) {
+        return typeOf(object) === REACT_LAZY_TYPE;
+    }
+    function isMemo(object) {
+        return typeOf(object) === REACT_MEMO_TYPE;
+    }
+    function isPortal(object) {
+        return typeOf(object) === REACT_PORTAL_TYPE;
+    }
+    function isProfiler(object) {
+        return typeOf(object) === REACT_PROFILER_TYPE;
+    }
+    function isStrictMode(object) {
+        return typeOf(object) === REACT_STRICT_MODE_TYPE;
+    }
+    function isSuspense(object) {
+        return typeOf(object) === REACT_SUSPENSE_TYPE;
+    }
+    exports.AsyncMode = AsyncMode;
+    exports.ConcurrentMode = ConcurrentMode;
+    exports.ContextConsumer = ContextConsumer;
+    exports.ContextProvider = ContextProvider;
+    exports.Element = Element;
+    exports.ForwardRef = ForwardRef;
+    exports.Fragment = Fragment;
+    exports.Lazy = Lazy;
+    exports.Memo = Memo;
+    exports.Portal = Portal;
+    exports.Profiler = Profiler;
+    exports.StrictMode = StrictMode;
+    exports.Suspense = Suspense;
+    exports.isAsyncMode = isAsyncMode;
+    exports.isConcurrentMode = isConcurrentMode;
+    exports.isContextConsumer = isContextConsumer;
+    exports.isContextProvider = isContextProvider;
+    exports.isElement = isElement;
+    exports.isForwardRef = isForwardRef;
+    exports.isFragment = isFragment;
+    exports.isLazy = isLazy;
+    exports.isMemo = isMemo;
+    exports.isPortal = isPortal;
+    exports.isProfiler = isProfiler;
+    exports.isStrictMode = isStrictMode;
+    exports.isSuspense = isSuspense;
+    exports.isValidElementType = isValidElementType;
+    exports.typeOf = typeOf;
+})();
+
+},{}],"bBUgD":[function(require,module,exports) {
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */ "use strict";
+var ReactIs = require("c437388b089702c3");
+var assign = require("c067a60101d8520c");
+var ReactPropTypesSecret = require("74a0f89a70b9f3c2");
+var has = require("18441b11647bc78");
+var checkPropTypes = require("bec3f6ff89f0b072");
+var printWarning = function() {};
+printWarning = function(text) {
+    var message = "Warning: " + text;
+    if (typeof console !== "undefined") console.error(message);
+    try {
+        // --- Welcome to debugging React ---
+        // This error was thrown as a convenience so that you can use this stack
+        // to find the callsite that caused this warning to fire.
+        throw new Error(message);
+    } catch (x) {}
+};
+function emptyFunctionThatReturnsNull() {
+    return null;
+}
+module.exports = function(isValidElement, throwOnDirectAccess) {
+    /* global Symbol */ var ITERATOR_SYMBOL = typeof Symbol === "function" && Symbol.iterator;
+    var FAUX_ITERATOR_SYMBOL = "@@iterator"; // Before Symbol spec.
+    /**
+   * Returns the iterator method function contained on the iterable object.
+   *
+   * Be sure to invoke the function with the iterable as context:
+   *
+   *     var iteratorFn = getIteratorFn(myIterable);
+   *     if (iteratorFn) {
+   *       var iterator = iteratorFn.call(myIterable);
+   *       ...
+   *     }
+   *
+   * @param {?object} maybeIterable
+   * @return {?function}
+   */ function getIteratorFn(maybeIterable) {
+        var iteratorFn = maybeIterable && (ITERATOR_SYMBOL && maybeIterable[ITERATOR_SYMBOL] || maybeIterable[FAUX_ITERATOR_SYMBOL]);
+        if (typeof iteratorFn === "function") return iteratorFn;
+    }
+    /**
+   * Collection of methods that allow declaration and validation of props that are
+   * supplied to React components. Example usage:
+   *
+   *   var Props = require('ReactPropTypes');
+   *   var MyArticle = React.createClass({
+   *     propTypes: {
+   *       // An optional string prop named "description".
+   *       description: Props.string,
+   *
+   *       // A required enum prop named "category".
+   *       category: Props.oneOf(['News','Photos']).isRequired,
+   *
+   *       // A prop named "dialog" that requires an instance of Dialog.
+   *       dialog: Props.instanceOf(Dialog).isRequired
+   *     },
+   *     render: function() { ... }
+   *   });
+   *
+   * A more formal specification of how these methods are used:
+   *
+   *   type := array|bool|func|object|number|string|oneOf([...])|instanceOf(...)
+   *   decl := ReactPropTypes.{type}(.isRequired)?
+   *
+   * Each and every declaration produces a function with the same signature. This
+   * allows the creation of custom validation functions. For example:
+   *
+   *  var MyLink = React.createClass({
+   *    propTypes: {
+   *      // An optional string or URI prop named "href".
+   *      href: function(props, propName, componentName) {
+   *        var propValue = props[propName];
+   *        if (propValue != null && typeof propValue !== 'string' &&
+   *            !(propValue instanceof URI)) {
+   *          return new Error(
+   *            'Expected a string or an URI for ' + propName + ' in ' +
+   *            componentName
+   *          );
+   *        }
+   *      }
+   *    },
+   *    render: function() {...}
+   *  });
+   *
+   * @internal
+   */ var ANONYMOUS = "<<anonymous>>";
+    // Important!
+    // Keep this list in sync with production version in `./factoryWithThrowingShims.js`.
+    var ReactPropTypes = {
+        array: createPrimitiveTypeChecker("array"),
+        bigint: createPrimitiveTypeChecker("bigint"),
+        bool: createPrimitiveTypeChecker("boolean"),
+        func: createPrimitiveTypeChecker("function"),
+        number: createPrimitiveTypeChecker("number"),
+        object: createPrimitiveTypeChecker("object"),
+        string: createPrimitiveTypeChecker("string"),
+        symbol: createPrimitiveTypeChecker("symbol"),
+        any: createAnyTypeChecker(),
+        arrayOf: createArrayOfTypeChecker,
+        element: createElementTypeChecker(),
+        elementType: createElementTypeTypeChecker(),
+        instanceOf: createInstanceTypeChecker,
+        node: createNodeChecker(),
+        objectOf: createObjectOfTypeChecker,
+        oneOf: createEnumTypeChecker,
+        oneOfType: createUnionTypeChecker,
+        shape: createShapeTypeChecker,
+        exact: createStrictShapeTypeChecker
+    };
+    /**
+   * inlined Object.is polyfill to avoid requiring consumers ship their own
+   * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
+   */ /*eslint-disable no-self-compare*/ function is(x, y) {
+        // SameValue algorithm
+        if (x === y) // Steps 1-5, 7-10
+        // Steps 6.b-6.e: +0 != -0
+        return x !== 0 || 1 / x === 1 / y;
+        else // Step 6.a: NaN == NaN
+        return x !== x && y !== y;
+    }
+    /*eslint-enable no-self-compare*/ /**
+   * We use an Error-like object for backward compatibility as people may call
+   * PropTypes directly and inspect their output. However, we don't use real
+   * Errors anymore. We don't inspect their stack anyway, and creating them
+   * is prohibitively expensive if they are created too often, such as what
+   * happens in oneOfType() for any type before the one that matched.
+   */ function PropTypeError(message, data) {
+        this.message = message;
+        this.data = data && typeof data === "object" ? data : {};
+        this.stack = "";
+    }
+    // Make `instanceof Error` still work for returned errors.
+    PropTypeError.prototype = Error.prototype;
+    function createChainableTypeChecker(validate) {
+        var manualPropTypeCallCache = {};
+        var manualPropTypeWarningCount = 0;
+        function checkType(isRequired, props, propName, componentName, location, propFullName, secret) {
+            componentName = componentName || ANONYMOUS;
+            propFullName = propFullName || propName;
+            if (secret !== ReactPropTypesSecret) {
+                if (throwOnDirectAccess) {
+                    // New behavior only for users of `prop-types` package
+                    var err = new Error("Calling PropTypes validators directly is not supported by the `prop-types` package. Use `PropTypes.checkPropTypes()` to call them. Read more at http://fb.me/use-check-prop-types");
+                    err.name = "Invariant Violation";
+                    throw err;
+                } else if (typeof console !== "undefined") {
+                    // Old behavior for people using React.PropTypes
+                    var cacheKey = componentName + ":" + propName;
+                    if (!manualPropTypeCallCache[cacheKey] && // Avoid spamming the console because they are often not actionable except for lib authors
+                    manualPropTypeWarningCount < 3) {
+                        printWarning("You are manually calling a React.PropTypes validation function for the `" + propFullName + "` prop on `" + componentName + "`. This is deprecated " + "and will throw in the standalone `prop-types` package. " + "You may be seeing this warning due to a third-party PropTypes " + "library. See https://fb.me/react-warning-dont-call-proptypes " + "for details.");
+                        manualPropTypeCallCache[cacheKey] = true;
+                        manualPropTypeWarningCount++;
+                    }
+                }
+            }
+            if (props[propName] == null) {
+                if (isRequired) {
+                    if (props[propName] === null) return new PropTypeError("The " + location + " `" + propFullName + "` is marked as required " + ("in `" + componentName + "`, but its value is `null`."));
+                    return new PropTypeError("The " + location + " `" + propFullName + "` is marked as required in " + ("`" + componentName + "`, but its value is `undefined`."));
+                }
+                return null;
+            } else return validate(props, propName, componentName, location, propFullName);
+        }
+        var chainedCheckType = checkType.bind(null, false);
+        chainedCheckType.isRequired = checkType.bind(null, true);
+        return chainedCheckType;
+    }
+    function createPrimitiveTypeChecker(expectedType) {
+        function validate(props, propName, componentName, location, propFullName, secret) {
+            var propValue = props[propName];
+            var propType = getPropType(propValue);
+            if (propType !== expectedType) {
+                // `propValue` being instance of, say, date/regexp, pass the 'object'
+                // check, but we can offer a more precise error message here rather than
+                // 'of type `object`'.
+                var preciseType = getPreciseType(propValue);
+                return new PropTypeError("Invalid " + location + " `" + propFullName + "` of type " + ("`" + preciseType + "` supplied to `" + componentName + "`, expected ") + ("`" + expectedType + "`."), {
+                    expectedType: expectedType
+                });
+            }
+            return null;
+        }
+        return createChainableTypeChecker(validate);
+    }
+    function createAnyTypeChecker() {
+        return createChainableTypeChecker(emptyFunctionThatReturnsNull);
+    }
+    function createArrayOfTypeChecker(typeChecker) {
+        function validate(props, propName, componentName, location, propFullName) {
+            if (typeof typeChecker !== "function") return new PropTypeError("Property `" + propFullName + "` of component `" + componentName + "` has invalid PropType notation inside arrayOf.");
+            var propValue = props[propName];
+            if (!Array.isArray(propValue)) {
+                var propType = getPropType(propValue);
+                return new PropTypeError("Invalid " + location + " `" + propFullName + "` of type " + ("`" + propType + "` supplied to `" + componentName + "`, expected an array."));
+            }
+            for(var i = 0; i < propValue.length; i++){
+                var error = typeChecker(propValue, i, componentName, location, propFullName + "[" + i + "]", ReactPropTypesSecret);
+                if (error instanceof Error) return error;
+            }
+            return null;
+        }
+        return createChainableTypeChecker(validate);
+    }
+    function createElementTypeChecker() {
+        function validate(props, propName, componentName, location, propFullName) {
+            var propValue = props[propName];
+            if (!isValidElement(propValue)) {
+                var propType = getPropType(propValue);
+                return new PropTypeError("Invalid " + location + " `" + propFullName + "` of type " + ("`" + propType + "` supplied to `" + componentName + "`, expected a single ReactElement."));
+            }
+            return null;
+        }
+        return createChainableTypeChecker(validate);
+    }
+    function createElementTypeTypeChecker() {
+        function validate(props, propName, componentName, location, propFullName) {
+            var propValue = props[propName];
+            if (!ReactIs.isValidElementType(propValue)) {
+                var propType = getPropType(propValue);
+                return new PropTypeError("Invalid " + location + " `" + propFullName + "` of type " + ("`" + propType + "` supplied to `" + componentName + "`, expected a single ReactElement type."));
+            }
+            return null;
+        }
+        return createChainableTypeChecker(validate);
+    }
+    function createInstanceTypeChecker(expectedClass) {
+        function validate(props, propName, componentName, location, propFullName) {
+            if (!(props[propName] instanceof expectedClass)) {
+                var expectedClassName = expectedClass.name || ANONYMOUS;
+                var actualClassName = getClassName(props[propName]);
+                return new PropTypeError("Invalid " + location + " `" + propFullName + "` of type " + ("`" + actualClassName + "` supplied to `" + componentName + "`, expected ") + ("instance of `" + expectedClassName + "`."));
+            }
+            return null;
+        }
+        return createChainableTypeChecker(validate);
+    }
+    function createEnumTypeChecker(expectedValues) {
+        if (!Array.isArray(expectedValues)) {
+            {
+                if (arguments.length > 1) printWarning("Invalid arguments supplied to oneOf, expected an array, got " + arguments.length + " arguments. " + "A common mistake is to write oneOf(x, y, z) instead of oneOf([x, y, z]).");
+                else printWarning("Invalid argument supplied to oneOf, expected an array.");
+            }
+            return emptyFunctionThatReturnsNull;
+        }
+        function validate(props, propName, componentName, location, propFullName) {
+            var propValue = props[propName];
+            for(var i = 0; i < expectedValues.length; i++){
+                if (is(propValue, expectedValues[i])) return null;
+            }
+            var valuesString = JSON.stringify(expectedValues, function replacer(key, value) {
+                var type = getPreciseType(value);
+                if (type === "symbol") return String(value);
+                return value;
+            });
+            return new PropTypeError("Invalid " + location + " `" + propFullName + "` of value `" + String(propValue) + "` " + ("supplied to `" + componentName + "`, expected one of " + valuesString + "."));
+        }
+        return createChainableTypeChecker(validate);
+    }
+    function createObjectOfTypeChecker(typeChecker) {
+        function validate(props, propName, componentName, location, propFullName) {
+            if (typeof typeChecker !== "function") return new PropTypeError("Property `" + propFullName + "` of component `" + componentName + "` has invalid PropType notation inside objectOf.");
+            var propValue = props[propName];
+            var propType = getPropType(propValue);
+            if (propType !== "object") return new PropTypeError("Invalid " + location + " `" + propFullName + "` of type " + ("`" + propType + "` supplied to `" + componentName + "`, expected an object."));
+            for(var key in propValue)if (has(propValue, key)) {
+                var error = typeChecker(propValue, key, componentName, location, propFullName + "." + key, ReactPropTypesSecret);
+                if (error instanceof Error) return error;
+            }
+            return null;
+        }
+        return createChainableTypeChecker(validate);
+    }
+    function createUnionTypeChecker(arrayOfTypeCheckers) {
+        if (!Array.isArray(arrayOfTypeCheckers)) {
+            printWarning("Invalid argument supplied to oneOfType, expected an instance of array.");
+            return emptyFunctionThatReturnsNull;
+        }
+        for(var i = 0; i < arrayOfTypeCheckers.length; i++){
+            var checker = arrayOfTypeCheckers[i];
+            if (typeof checker !== "function") {
+                printWarning("Invalid argument supplied to oneOfType. Expected an array of check functions, but received " + getPostfixForTypeWarning(checker) + " at index " + i + ".");
+                return emptyFunctionThatReturnsNull;
+            }
+        }
+        function validate(props, propName, componentName, location, propFullName) {
+            var expectedTypes = [];
+            for(var i = 0; i < arrayOfTypeCheckers.length; i++){
+                var checker = arrayOfTypeCheckers[i];
+                var checkerResult = checker(props, propName, componentName, location, propFullName, ReactPropTypesSecret);
+                if (checkerResult == null) return null;
+                if (checkerResult.data && has(checkerResult.data, "expectedType")) expectedTypes.push(checkerResult.data.expectedType);
+            }
+            var expectedTypesMessage = expectedTypes.length > 0 ? ", expected one of type [" + expectedTypes.join(", ") + "]" : "";
+            return new PropTypeError("Invalid " + location + " `" + propFullName + "` supplied to " + ("`" + componentName + "`" + expectedTypesMessage + "."));
+        }
+        return createChainableTypeChecker(validate);
+    }
+    function createNodeChecker() {
+        function validate(props, propName, componentName, location, propFullName) {
+            if (!isNode(props[propName])) return new PropTypeError("Invalid " + location + " `" + propFullName + "` supplied to " + ("`" + componentName + "`, expected a ReactNode."));
+            return null;
+        }
+        return createChainableTypeChecker(validate);
+    }
+    function invalidValidatorError(componentName, location, propFullName, key, type) {
+        return new PropTypeError((componentName || "React class") + ": " + location + " type `" + propFullName + "." + key + "` is invalid; " + "it must be a function, usually from the `prop-types` package, but received `" + type + "`.");
+    }
+    function createShapeTypeChecker(shapeTypes) {
+        function validate(props, propName, componentName, location, propFullName) {
+            var propValue = props[propName];
+            var propType = getPropType(propValue);
+            if (propType !== "object") return new PropTypeError("Invalid " + location + " `" + propFullName + "` of type `" + propType + "` " + ("supplied to `" + componentName + "`, expected `object`."));
+            for(var key in shapeTypes){
+                var checker = shapeTypes[key];
+                if (typeof checker !== "function") return invalidValidatorError(componentName, location, propFullName, key, getPreciseType(checker));
+                var error = checker(propValue, key, componentName, location, propFullName + "." + key, ReactPropTypesSecret);
+                if (error) return error;
+            }
+            return null;
+        }
+        return createChainableTypeChecker(validate);
+    }
+    function createStrictShapeTypeChecker(shapeTypes) {
+        function validate(props, propName, componentName, location, propFullName) {
+            var propValue = props[propName];
+            var propType = getPropType(propValue);
+            if (propType !== "object") return new PropTypeError("Invalid " + location + " `" + propFullName + "` of type `" + propType + "` " + ("supplied to `" + componentName + "`, expected `object`."));
+            // We need to check all keys in case some are required but missing from props.
+            var allKeys = assign({}, props[propName], shapeTypes);
+            for(var key in allKeys){
+                var checker = shapeTypes[key];
+                if (has(shapeTypes, key) && typeof checker !== "function") return invalidValidatorError(componentName, location, propFullName, key, getPreciseType(checker));
+                if (!checker) return new PropTypeError("Invalid " + location + " `" + propFullName + "` key `" + key + "` supplied to `" + componentName + "`." + "\nBad object: " + JSON.stringify(props[propName], null, "  ") + "\nValid keys: " + JSON.stringify(Object.keys(shapeTypes), null, "  "));
+                var error = checker(propValue, key, componentName, location, propFullName + "." + key, ReactPropTypesSecret);
+                if (error) return error;
+            }
+            return null;
+        }
+        return createChainableTypeChecker(validate);
+    }
+    function isNode(propValue) {
+        switch(typeof propValue){
+            case "number":
+            case "string":
+            case "undefined":
+                return true;
+            case "boolean":
+                return !propValue;
+            case "object":
+                if (Array.isArray(propValue)) return propValue.every(isNode);
+                if (propValue === null || isValidElement(propValue)) return true;
+                var iteratorFn = getIteratorFn(propValue);
+                if (iteratorFn) {
+                    var iterator = iteratorFn.call(propValue);
+                    var step;
+                    if (iteratorFn !== propValue.entries) while(!(step = iterator.next()).done){
+                        if (!isNode(step.value)) return false;
+                    }
+                    else // Iterator will provide entry [k,v] tuples rather than values.
+                    while(!(step = iterator.next()).done){
+                        var entry = step.value;
+                        if (entry) {
+                            if (!isNode(entry[1])) return false;
+                        }
+                    }
+                } else return false;
+                return true;
+            default:
+                return false;
+        }
+    }
+    function isSymbol(propType, propValue) {
+        // Native Symbol.
+        if (propType === "symbol") return true;
+        // falsy value can't be a Symbol
+        if (!propValue) return false;
+        // 19.4.3.5 Symbol.prototype[@@toStringTag] === 'Symbol'
+        if (propValue["@@toStringTag"] === "Symbol") return true;
+        // Fallback for non-spec compliant Symbols which are polyfilled.
+        if (typeof Symbol === "function" && propValue instanceof Symbol) return true;
+        return false;
+    }
+    // Equivalent of `typeof` but with special handling for array and regexp.
+    function getPropType(propValue) {
+        var propType = typeof propValue;
+        if (Array.isArray(propValue)) return "array";
+        if (propValue instanceof RegExp) // Old webkits (at least until Android 4.0) return 'function' rather than
+        // 'object' for typeof a RegExp. We'll normalize this here so that /bla/
+        // passes PropTypes.object.
+        return "object";
+        if (isSymbol(propType, propValue)) return "symbol";
+        return propType;
+    }
+    // This handles more types than `getPropType`. Only used for error messages.
+    // See `createPrimitiveTypeChecker`.
+    function getPreciseType(propValue) {
+        if (typeof propValue === "undefined" || propValue === null) return "" + propValue;
+        var propType = getPropType(propValue);
+        if (propType === "object") {
+            if (propValue instanceof Date) return "date";
+            else if (propValue instanceof RegExp) return "regexp";
+        }
+        return propType;
+    }
+    // Returns a string that is postfixed to a warning about an invalid type.
+    // For example, "undefined" or "of type array"
+    function getPostfixForTypeWarning(value) {
+        var type = getPreciseType(value);
+        switch(type){
+            case "array":
+            case "object":
+                return "an " + type;
+            case "boolean":
+            case "date":
+            case "regexp":
+                return "a " + type;
+            default:
+                return type;
+        }
+    }
+    // Returns class name of the object, if any.
+    function getClassName(propValue) {
+        if (!propValue.constructor || !propValue.constructor.name) return ANONYMOUS;
+        return propValue.constructor.name;
+    }
+    ReactPropTypes.checkPropTypes = checkPropTypes;
+    ReactPropTypes.resetWarningCache = checkPropTypes.resetWarningCache;
+    ReactPropTypes.PropTypes = ReactPropTypes;
+    return ReactPropTypes;
+};
+
+},{"c437388b089702c3":"gfIo3","c067a60101d8520c":"7OXxh","74a0f89a70b9f3c2":"jZTZJ","18441b11647bc78":"fqKuf","bec3f6ff89f0b072":"5VwyJ"}],"7OXxh":[function(require,module,exports) {
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/ "use strict";
+/* eslint-disable no-unused-vars */ var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+function toObject(val) {
+    if (val === null || val === undefined) throw new TypeError("Object.assign cannot be called with null or undefined");
+    return Object(val);
+}
+function shouldUseNative() {
+    try {
+        if (!Object.assign) return false;
+        // Detect buggy property enumeration order in older V8 versions.
+        // https://bugs.chromium.org/p/v8/issues/detail?id=4118
+        var test1 = new String("abc"); // eslint-disable-line no-new-wrappers
+        test1[5] = "de";
+        if (Object.getOwnPropertyNames(test1)[0] === "5") return false;
+        // https://bugs.chromium.org/p/v8/issues/detail?id=3056
+        var test2 = {};
+        for(var i = 0; i < 10; i++)test2["_" + String.fromCharCode(i)] = i;
+        var order2 = Object.getOwnPropertyNames(test2).map(function(n) {
+            return test2[n];
+        });
+        if (order2.join("") !== "0123456789") return false;
+        // https://bugs.chromium.org/p/v8/issues/detail?id=3056
+        var test3 = {};
+        "abcdefghijklmnopqrst".split("").forEach(function(letter) {
+            test3[letter] = letter;
+        });
+        if (Object.keys(Object.assign({}, test3)).join("") !== "abcdefghijklmnopqrst") return false;
+        return true;
+    } catch (err) {
+        // We don't expect any of the above to throw, but better to be safe.
+        return false;
+    }
+}
+module.exports = shouldUseNative() ? Object.assign : function(target, source) {
+    var from;
+    var to = toObject(target);
+    var symbols;
+    for(var s = 1; s < arguments.length; s++){
+        from = Object(arguments[s]);
+        for(var key in from)if (hasOwnProperty.call(from, key)) to[key] = from[key];
+        if (getOwnPropertySymbols) {
+            symbols = getOwnPropertySymbols(from);
+            for(var i = 0; i < symbols.length; i++)if (propIsEnumerable.call(from, symbols[i])) to[symbols[i]] = from[symbols[i]];
+        }
+    }
+    return to;
+};
+
+},{}],"jZTZJ":[function(require,module,exports) {
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */ "use strict";
+var ReactPropTypesSecret = "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED";
+module.exports = ReactPropTypesSecret;
+
+},{}],"fqKuf":[function(require,module,exports) {
+module.exports = Function.call.bind(Object.prototype.hasOwnProperty);
+
+},{}],"5VwyJ":[function(require,module,exports) {
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */ "use strict";
+var printWarning = function() {};
+var ReactPropTypesSecret = require("24ba1e58d167a82c");
+var loggedTypeFailures = {};
+var has = require("898bc82f39d83f7c");
+printWarning = function(text) {
+    var message = "Warning: " + text;
+    if (typeof console !== "undefined") console.error(message);
+    try {
+        // --- Welcome to debugging React ---
+        // This error was thrown as a convenience so that you can use this stack
+        // to find the callsite that caused this warning to fire.
+        throw new Error(message);
+    } catch (x) {}
+};
+/**
+ * Assert that the values match with the type specs.
+ * Error messages are memorized and will only be shown once.
+ *
+ * @param {object} typeSpecs Map of name to a ReactPropType
+ * @param {object} values Runtime values that need to be type-checked
+ * @param {string} location e.g. "prop", "context", "child context"
+ * @param {string} componentName Name of the component for error messages.
+ * @param {?Function} getStack Returns the component stack.
+ * @private
+ */ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
+    for(var typeSpecName in typeSpecs)if (has(typeSpecs, typeSpecName)) {
+        var error;
+        // Prop type validation may throw. In case they do, we don't want to
+        // fail the render phase where it didn't fail before. So we log it.
+        // After these have been cleaned up, we'll let them throw.
+        try {
+            // This is intentionally an invariant that gets caught. It's the same
+            // behavior as without this statement except with a better message.
+            if (typeof typeSpecs[typeSpecName] !== "function") {
+                var err = Error((componentName || "React class") + ": " + location + " type `" + typeSpecName + "` is invalid; " + "it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`." + "This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
+                err.name = "Invariant Violation";
+                throw err;
+            }
+            error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
+        } catch (ex) {
+            error = ex;
+        }
+        if (error && !(error instanceof Error)) printWarning((componentName || "React class") + ": type specification of " + location + " `" + typeSpecName + "` is invalid; the type checker " + "function must return `null` or an `Error` but returned a " + typeof error + ". " + "You may have forgotten to pass an argument to the type checker " + "creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and " + "shape all require an argument).");
+        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
+            // Only monitor this failure once because there tends to be a lot of the
+            // same error.
+            loggedTypeFailures[error.message] = true;
+            var stack = getStack ? getStack() : "";
+            printWarning("Failed " + location + " type: " + error.message + (stack != null ? stack : ""));
+        }
+    }
+}
+/**
+ * Resets warning cache when testing.
+ *
+ * @private
+ */ checkPropTypes.resetWarningCache = function() {
+    loggedTypeFailures = {};
+};
+module.exports = checkPropTypes;
+
+},{"24ba1e58d167a82c":"jZTZJ","898bc82f39d83f7c":"fqKuf"}]},["dm2Ou","1xC6H","4aBH6"], "4aBH6", "parcelRequireb8e7")
 
 //# sourceMappingURL=index.2d3ace14.js.map
